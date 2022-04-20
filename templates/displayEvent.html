@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/displayevent.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="topbar ">
+        <div class="brand">
+            <img src="/static/img/logo.svg" alt="" style="margin-left: 15px; width: 50px">
+            <a class="navbar-brand" style="font-size: 28px; color: white;">Voluntario</a>
+        </div>
+        <div class="toggle ">
+
+        </div>
+        <!-- search -->
+        <div class="search ">
+        </div>
+        <div class="right-topbar ">
+
+            <div>
+                <button class="dashboard" onclick="window.location.href='{{url_for('dashboardVol',tab='dashboard')}}';">Dashboard</button>
+            </div>
+            <!-- userImg -->
+            <div class="user ">
+
+                <a class="normal " href="{{ url_for( 'volunteerProfile') }} ">
+                {% if image == None %}
+                <ion-icon name="person " style="padding-top: 5px; "></ion-icon>
+                {% else %}
+                <img src="data:image/png;base64,{{image}} " alt=" " class="image-profile "> {% endif %}
+            </a>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- BEGIN SEARCH RESULT -->
+            <div class="col-md-12">
+                <div class="grid-search">
+                    <div class="grid-body">
+                        <div class="row-div">
+                            <div class="row">
+                                <!-- BEGIN FILTERS -->
+                                <div class="col-md-2">
+                                    <h2 class="grid-title"><i class="fa fa-filter"></i> Filters</h2>
+                                    <hr>
+
+                                    <!-- BEGIN FILTER BY CATEGORY -->
+                                    <h4>By Category:</h4>
+                                    {%for c in categories %}
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" class="icheck" id="cat{{c.category_id}}" onchange="toggle({{c.category_id}});">  {{c.category_name}}</label>
+                                    </div>
+                                    {%endfor%}
+
+                                    <!-- END FILTER BY CATEGORY -->
+
+                                    <div class="padding"></div>
+                                    <h4>Location:</h4>
+                                    <select name="location" id="location">
+                                        <option>Select an Emirate</option>
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Sharjah">Sharjah</option>
+                                    <option value="Ajman">Ajman</option>
+                                    <option value="umm al-quwain">Umm Al-Quwain</option>
+                                    <option value="Fujairah">Fujairah</option>
+                                    <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                  </select>
+                                    <!-- BEGIN FILTER BY DATE -->
+
+                                    <!-- END FILTER BY DATE -->
+
+                                    <div class="padding"></div>
+
+                                    <!-- BEGIN FILTER BY PRICE -->
+                                    <h4>By Hours:</h4>
+
+                                    <div class="list-group">
+                                        <input type="hidden" name="minimum" id="hidden_minimum_hours" value="0" />
+                                        <input type="hidden" name="maximum" id="hidden_maximum_hours" value="100" />
+                                        <p id="hours_show">0 - 100</p>
+                                        <div id="hours_range"></div>
+                                    </div>
+
+
+                                    <!-- END FILTER BY PRICE -->
+                                </div>
+                                <!-- END FILTERS -->
+                                <!-- BEGIN RESULT -->
+                                <div class="col-md-10">
+                                    <h2><i class="fa fa-file-o"></i> Result</h2>
+                                    <hr>
+                                    <!-- BEGIN SEARCH INPUT -->
+                                    <div class="input-group">
+                                        {%if keyword %}
+                                        <input type="text" class="form-control" placeholder="{{keyword}}" name="search" id="searchf"> {%else%}
+                                        <input type="text" class="form-control" placeholder="Search..." name="search" id="searchf"> {%endif%}
+                                        <span class="input-group-btn">
+                <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+              </span>
+                                    </div>
+                                    <div class="list-type4">
+                                        <ol id="searchlist"></ol>
+                                    </div>
+
+                                    {%if keyword %}
+                                    <!-- END SEARCH INPUT -->
+                                    <p>Showing all results matching "{{keyword}}"</p>
+                                    {%endif%}
+                                    <div class="padding"></div>
+
+                                    <div class="row">
+                                        <!-- BEGIN ORDER RESULT -->
+                                        <div class="col-sm-6">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Sort by <span class="caret"></span>
+                  </button>
+                                                <ul class="dropdown-menu" id="dropdown" role="menu">
+                                                    <li><a id="1" onclick="sortevents(this.id)">Date (Newest)</a></li>
+                                                    <li><a id="2" onclick="sortevents(this.id)">Rating (Highest)</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- END ORDER RESULT -->
+                                    </div>
+                                    <div class="body">
+                                        <div class="grid">
+
+                                            {% for event in events %}
+
+                                            <div class="card-event ">
+                                                <article class="card" style="margin-top: 20px; ">
+
+
+                                                    {% if not event.event_poster %}
+
+                                                    <div class="thumb " style="background: url('/static/img/category{{event.category_id}}.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center; ">
+                                                        {% else %}
+                                                        <!-- 
+                                                        TODO div with photo 
+                                                        write the body of url() method
+                                                    -->
+                                                        <div class="thumb " style=" background: url(); background-size: contain; background-repeat: no-repeat; background-position: center; ">
+                                                        </div>
+                                                        {% endif %}
+
+                                                    </div>
+                                                    <div class="infos ">
+                                                        <h2 class="title ">{{ event.event_name }}</h2>
+                                                        <h3 class="date ">{{ event.start_date.strftime('%-d %b %Y %H:%M') }} - {{ event.end_date.strftime('%-d %b %Y %H:%M') }}</h3>
+                                                        <h3>{{ event.user_events[0].Users.organizers[0].contact_name }}</h3>
+                                                        <h3>{{ event.user_events[0].Users.rating }}</h3>
+                                                        <h3 class="seats ">seats remaining: {{ event.capacity - len(event.RegisteredVolunteers) }}</h3>
+                                                        <h3 class="seats ">Hours: {{ event.hours }}</h3>
+                                                        <p class="txt ">
+                                                            {{ event.event_description }}
+                                                        </p>
+                                                        <a href="/viewEvent/{{event.event_id}}">
+                                                            <h3 class="details">event details</h3>
+                                                        </a>
+                                                    </div>
+
+                                                </article>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END RESULT -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END SEARCH RESULT -->
+    </div>
+    </div>
+
+    <style type="text/css">
+        .ui-slider-horizontal .ui-slider-range {
+            background-color: #dc3545 !important;
+        }
+        
+        .btn-default.active,
+        .btn-default:active,
+        .open>.dropdown-toggle.btn-default {
+            color: white !important;
+        }
+        
+        .row-div {
+            background-color: white;
+            padding-bottom: 70px;
+            padding-right: 30px;
+            padding-left: 30px;
+            padding-top: 30px;
+            border-radius: 20px;
+            background-color: white;
+            border: 0px !important;
+        }
+        
+        .btn {
+            background-color: #dc3545 !important;
+            border: 1px solid #dc3545 !important;
+        }
+        
+        .brand {
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+        }
+        
+        .col-md-10 {
+            background-color: transparent !important;
+        }
+        
+        .card {
+            zoom: 0.9;
+        }
+        
+        .btn {
+            margin-bottom: 5px;
+        }
+        
+        body {
+            background: black;
+        }
+        
+        .grid-search {
+            position: relative;
+            width: 100%;
+            background: black;
+            color: #666666;
+            border-radius: 2px;
+            margin-bottom: 25px;
+            box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .grid-search .grid-body {
+            padding: 15px 20px 15px 20px;
+            font-size: 0.9em;
+            line-height: 1.9em;
+        }
+        
+        .grid-search table tr td.rate {
+            color: #f39c12;
+            line-height: 50px;
+        }
+        
+        .search table tr:hover {
+            cursor: pointer;
+        }
+        
+        .search table tr td.image {
+            width: 50px;
+        }
+        
+        .search table tr td img {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .search table tr td.rate {
+            color: #f39c12;
+            line-height: 50px;
+        }
+        
+        .search table tr td.price {
+            font-size: 1.5em;
+            line-height: 50px;
+        }
+        
+        .search #price1,
+        .search #price2 {
+            display: inline;
+            font-weight: 600;
+        }
+        
+         :root {
+            --yellow: #dc3545;
+            --light-yellow: #fdf2d2;
+            --orange: #dc3545;
+            --light-gray: #e3e4e8;
+            --gray: #71738b;
+            --light-blue: #7a7c93;
+            --blue: #34385a;
+            --slider-handle-size: 14px;
+            --slider-handle-border-radius: 2px;
+            --slider-handle-margin-top: -4px;
+            --slider-track-height: 6px;
+            --slider-track-border-radius: 4px;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        #sliderContainer>div:first-child {
+            margin-bottom: 48px;
+        }
+        
+        .tick-slider-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .input-group-btn:last-child>.btn {
+            height: 38px !important;
+        }
+        
+        .tick-slider-header>h5 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 300;
+            color: var(--gray);
+        }
+        
+        .tick-slider {
+            position: relative;
+            width: 100%;
+        }
+        
+        .tick-slider-value-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 18px;
+            color: var(--gray);
+        }
+        
+        .tick-slider-value {
+            position: absolute;
+            top: 0;
+            font-weight: bold;
+            color: #dc3545;
+            border-radius: var(--slider-handle-border-radius);
+        }
+        
+        .tick-slider-value>div {
+            animation: bulge 0.3s ease-out;
+        }
+        
+        .tick-slider-background,
+        .tick-slider-progress,
+        .tick-slider-tick-container {
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            height: var(--slider-track-height);
+            pointer-events: none;
+            border-radius: var(--slider-track-border-radius);
+            z-index: -1;
+        }
+        
+        .tick-slider-background {
+            width: 100%;
+            background-color: var(--light-gray);
+        }
+        
+        .tick-slider-progress {
+            background-color: var(--yellow);
+        }
+        
+        .tick-slider-tick-container {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 calc(var(--slider-handle-size) / 2);
+        }
+        
+        .tick-slider-tick {
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            background-color: white;
+        }
+        
+        .tick-slider-label {
+            opacity: 0.85;
+            transition: opacity 0.1s ease;
+        }
+        
+        .tick-slider-label.hidden {
+            opacity: 0;
+        }
+        
+        @keyframes bulge {
+            0% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        /*
+
+    REMOVE SLIDER STYLE DEFAULTS
+
+*/
+        
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 100%;
+            background: grey;
+            outline: none;
+            margin: 5px 0;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border: none;
+        }
+        
+        input[type="range"]:focus {
+            outline: none;
+        }
+        
+        input[type="range"]::-moz-focus-outer {
+            border: 0;
+        }
+        /*
+
+    HANDLE
+
+*/
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: var(--slider-handle-size);
+            height: var(--slider-handle-size);
+            background: var(--orange);
+            border-radius: var(--slider-handle-border-radius);
+            cursor: pointer;
+            margin-top: var(--slider-handle-margin-top);
+            -webkit-transform: scale(1);
+            transform: scale(1);
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        input[type="range"]:hover::-webkit-slider-thumb,
+        input[type="range"]:focus::-webkit-slider-thumb {
+            transform: scale(1.2);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            -webkit-appearance: none;
+            width: var(--slider-handle-size);
+            height: var(--slider-handle-size);
+            background: var(--orange);
+            border: none;
+            border-radius: var(--slider-handle-border-radius);
+            cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        input[type="range"]:hover::-moz-range-thumb,
+        input[type="range"]:focus::-moz-range-thumb {
+            transform: scale(1.2);
+        }
+        /*
+
+    TRACK
+
+*/
+        
+        input[type="range"]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: var(--slider-track-height);
+            cursor: pointer;
+            background: none;
+            border-radius: var(--slider-track-border-radius);
+        }
+        
+        input[type="range"]::-moz-range-track {
+            width: 100%;
+            height: var(--slider-track-height);
+            cursor: pointer;
+            background: none;
+            border-radius: var(--slider-track-border-radius);
+        }
+        
+        input[type="range"]:focus::-webkit-slider-runnable-track {
+            background: none;
+        }
+        
+        input[type="range"]:active::-webkit-slider-runnable-track {
+            background: none;
+        }
+        
+        .list-type4 {
+            width: 100%;
+        }
+        
+        .list-type4 ol {
+            counter-reset: li;
+            list-style: none;
+            *list-style: decimal;
+            font-size: 15px;
+            font-family: 'Raleway', sans-serif;
+            padding: 0;
+        }
+        
+        .list-type4 li:last-child {
+            border-radius: 25px;
+        }
+        
+        .list-type4 a {
+            position: relative;
+            display: block;
+            padding: .4em .4em .4em 2em;
+            *padding: .4em;
+            margin: 0 0;
+            background: transparent;
+            color: black;
+            text-decoration: none;
+            font-size: 1rem;
+            box-shadow: inset 0.5em 0 black;
+            -webkit-transition: box-shadow 1s;
+            /* For Safari 3.1 to 6.0 */
+            transition: box-shadow 1s;
+            margin-bottom: 0;
+            width: 100%;
+            border-bottom: 1px solid black;
+            border-right: 1px solid black;
+        }
+        
+        .list-type4 a:hover {
+            box-shadow: inset 1.5em 0 #dc3545;
+        }
+    </style>
+
+    <script>
+        var sort = 0;
+
+        function sortevents(id) {
+            sort = id;
+            filter();
+        }
+        const select = document.getElementById('location');
+
+        select.addEventListener('change', function handleChange(event) {
+            filter();
+
+        });
+        $(document).ready(function() {
+            filter();
+            $('#hours_range').slider({
+                range: true,
+                min: 0,
+                max: 100,
+                values: [0, 100],
+                step: 1,
+                stop: function(event, ui) {
+                    $('#hours_show').html(ui.values[0] + ' - ' + ui.values[1]);
+                    $('#hidden_minimum_hours').val(ui.values[0]);
+                    $('#hidden_maximum_hours').val(ui.values[1]);
+                    filter();
+                }
+            });
+        });
+        let arr = {};
+        '{% for c in categories %}'
+        arr['{{c.category_id}}'] = 0;
+        '{% endfor %}'
+
+        function toggle(id) {
+            arr[id] ^= 1
+            filter();
+
+        }
+
+        function filter() {
+            $('.grid').html('<div id="loading" style="" ></div>');
+            var action = 'fetch_data';
+            var value = select.options[select.selectedIndex].value;
+            var minimum = $('#hidden_minimum_hours').val();
+            var maximum = $('#hidden_maximum_hours').val();
+            console.log(sort);
+            $.ajax({
+                url: "/filter",
+                method: "POST",
+                data: {
+                    action: action,
+                    location: value,
+                    minimum: minimum,
+                    maximum: maximum,
+                    arr: JSON.stringify(arr),
+                    sort: sort
+                },
+                success: function(data) {
+                    $('.grid').html(data);
+                    $(".grid").append(data.htmlresponse);
+                }
+            });
+        }
+
+        $(document).ready(function() {
+
+            function load_data(query) {
+                $.ajax({
+                    url: "{{ url_for('loadevents') }}",
+                    method: "POST",
+                    data: $('#searchf'),
+                    success: function(data) {
+                        // $('#result').html(data);
+                        // $("#result").append(data.htmlresponse);
+                        $("#searchlist").html(data)
+                        $("#searchlist").append(data.htmlresponse)
+                    }
+                });
+            }
+            $('#searchf').keyup(function() {
+                var search = $(this).val();
+                if (search.trim() != "") {
+                    load_data(search);
+                } else {
+                    $("#searchlist").html('')
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

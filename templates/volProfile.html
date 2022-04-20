@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,300;0,400;0,500;0,600;0,800;1,200&display=swap" rel="stylesheet">
+
+    <!--owl-carousel-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+
+
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/home.css')}}">
+    <link rel="stylesheet" href="/static/css/volprofile.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <title>Volunteer Profile</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+
+        <div class="header" id="header">
+            <div class="header-inner" id="header-inner">
+                <div class="container-fluid">
+                    <nav class="navbar navbar-expand-lg my-navbar py-lg-0 py-sm-0 py-0 px-lg-0">
+                        <span></span>
+                        <img src="/static/img/logo.svg" alt="" style="width: 50px">
+                        <a class="navbar-brand" href="/">Voluntario</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon" data-scroll="out">
+                            <div id="nav-icon1">
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                            </div>
+                          </span>
+                        </button>
+                        <div class="topbar">
+                            <div class="toggle">
+                            </div>
+                            <!-- search -->
+                            <div class="search">
+                                <form method="post" action="{{url_for('search')}}">
+                                    <label>
+                                    <div class="search-bar">
+                                        <input type="text" placeholder="Search here" name = "searched">
+                                        <ion-icon name="search-outline" class="search-icon"></ion-icon>
+                                    </div>
+                                </label>
+                                </form>
+                            </div>
+                            <!-- userImg -->
+                            <div class="user">
+                                <ion-icon name="md-person-outline" style="padding-top: 5px;"></ion-icon>
+                            </div>
+                        </div>
+                        <div class="collapse navbar-collapse mobile-menu d-flex flex-lg-row flex-column flex-xl-row justify-content-lg-end justify-content-md-start right-side" id="navbarSupportedContent">
+                            <form class="form-inline my-2 my-lg-0 ml-2 align-self-stretch">
+                                {% if page == "own"%}
+                                <a href="{{ url_for( 'dashboardVol',tab='dashboard') }}" class="header-btn">Dashboard</a> {%endif%}
+                            </form>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="main-body">
+            <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                    <div class="card" style="min-height: 700px">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="data:image/png;base64,{{img}}" alt="profile picture" class="rounded-circle" width="150">
+                                <div class="mt-3">
+                                    <h4>{{ vol.first_name }} {{ vol.last_name }}</h4>
+                                    <p class="text-secondary mb-1">Volunteer</p>
+                                    <hr>
+                                    <p class="text-muted font-size-sm" style="font-size:12px;">{{user.bio}}</p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rating-card" style="margin-left: 5px; margin-right: 5px;">
+                            <div class="text-center m-b-30">
+                                <h4>Rating Overview</h4>
+                                <br>
+                                <h1 class="rating-number">{% if current_user.is_authenticated %} {% if user.rating == None %} 0 {%else%} {{ "{:.2f}".format(user.rating) }} {% endif %}{% endif %}<small>/5</small></h1>
+                                <div class="rating-stars d-inline-block position-relative mr-2">
+                                    <img src="/static/img/grey-star.svg" alt="">
+                                    <div class="filled-star" style="width:'{{rating}}%'"></div>
+                                </div>
+                                <div class="text-muted">{{totalReviews}} ratings</div>
+                            </div>
+                            <div class="rating-divided">
+                                <div class="rating-progress">
+                                    <span class="rating-grade">5 <img src="/static/img/star.svg" alt=""></span>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width:{{percentage[4]}};" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="rating-value">{{counts[4]}}</span>
+                                </div>
+                                <div class="rating-progress">
+                                    <span class="rating-grade">4 <img src="/static/img/star.svg" alt=""></span>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width:{{percentage[3]}};" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="rating-value">{{counts[3]}}</span>
+                                </div>
+                                <div class="rating-progress">
+                                    <span class="rating-grade">3 <img src="/static/img/star.svg" alt=""></span>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width:{{percentage[2]}};" aria-valuenow="8" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="rating-value">{{counts[2]}}</span>
+                                </div>
+                                <div class="rating-progress">
+                                    <span class="rating-grade">2 <img src="/static/img/star.svg" alt=""></span>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width:{{percentage[1]}};" aria-valuenow="6" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="rating-value">{{counts[1]}}</span>
+                                </div>
+                                <div class="rating-progress">
+                                    <span class="rating-grade">1 <img src="/static/img/star.svg" alt=""></span>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width:{{percentage[0]}};" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="rating-value">{{counts[0]}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card mb-3" style="height:270px">
+                        <div class="card-body">
+                            <div class="row" style="padding:1px;">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0"><strong>Full Name</strong></h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary" style="font-size:17px;">
+                                    {% if current_user.is_authenticated %} {{ vol.first_name }} {{ vol.last_name }} {% endif %}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0"><strong>Rating</strong></h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary" style="font-size:17px;">
+                                    {% if current_user.is_authenticated %} {% if user.rating == None %} 0 {%else%} {{ "{:.2f}".format(user.rating) }} {% endif %}{% endif %}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0"><strong>Hours Completed</strong></h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary" style="font-size:17px;">
+                                    {% if current_user.is_authenticated %} {{ vol.total_hours }} {% endif %}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="child">
+                        <div class="card" style="padding-top:10px;">
+                            <div class="card-body ">
+                                <section id="reviews">
+                                    <h6 class="heading-review">Recent Ratings</h6>
+                                    <hr>
+                                    <div class="testimonial-box-container">
+                                    </div>
+                                    {% if reviews|length == 0 %}
+                                    <p class="noreview">You have no reviews yet.</p>
+                                    {%else%} {% for r in reviews %}
+                                    <div class="testimonial-box box{{loop.index0}}">
+                                        <div class="box-top">
+                                            <div class="profile">
+                                                <div class="profile-img">
+                                                    <img src="data:image/png;base64,{{pictures[loop.index0]}}">
+                                                </div>
+                                                <div class="profilename">
+                                                    <strong>{{names[loop.index0]}}</strong>
+                                                </div>
+                                            </div>
+                                            <div class="review">
+                                                {% for i in range (r.rating) %}
+                                                <i class="fas fa-star"></i> {% endfor %} {% for i in range (5-r.rating) %}
+                                                <i class="far fa-star"></i> {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="comment">
+                                            <p>{{r.description}}</p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </section>
+                            </div>
+                            <div id="load-more" style="max-width: 20%;"> Load More </div>
+                            {%endif%}
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+        let loadMoreBtn = document.querySelector('#load-more');
+        let currentItem = 3;
+
+        loadMoreBtn.onclick = () => {
+            let boxes = [...document.querySelectorAll('.testimonial-box')];
+            console.log(boxes.length)
+            for (var i = currentItem; i < currentItem + 3; i++) {
+                boxes[i].style.display = 'inline-block';
+            }
+            currentItem += 3;
+            if (currentItem >= boxes.length) {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
+    </script>
+    <!-- cd-faq -->
+    <script>
+        var faq = document.getElementsByClassName("faq-page");
+        var i;
+        for (i = 0; i < faq.length; i++) {
+            faq[i].addEventListener("click", function() {
+                /* Toggle between adding and removing the "active" class,
+                to highlight the button that controls the panel */
+                this.classList.toggle("active");
+                /* Toggle between hiding and showing the active panel */
+                var body = this.nextElementSibling;
+                if (body.style.display === "block") {
+                    body.style.display = "none";
+                } else {
+                    body.style.display = "block";
+                }
+            });
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#nav-icon1,#nav-icon2,#nav-icon3,#nav-icon4').click(function() {
+                $(this).toggleClass('ham-open');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.navbar-toggler,.overlay').on("click", function() {
+                $(".mobile-menu,.overlay").toggleClass('open-nav');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(window).scrollTop() < 60) {
+                    $('.header-inner').removeClass('navbar-scroll');
+                } else {
+                    $('.header-inner').addClass('navbar-scroll');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

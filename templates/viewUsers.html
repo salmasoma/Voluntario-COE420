@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>User list cards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="container">
+        <span></span>
+        <div class="topbar">
+            <div class="toggle">
+                <img src="/static/img/logo.svg" alt="" style="width: 50px">
+                <a class="navbar-brand" style="font-size: 28px; color: white;">Voluntario</a>
+            </div>
+            <!-- search -->
+            <div class="search">
+                <form method="post" action="{{url_for('search')}}">
+                    <label>
+                        <input type="text" placeholder="Search here" name="searched">
+                        <ion-icon name="search-outline" style="padding-top: 10px"></ion-icon>
+                    </label>
+                </form>
+            </div>
+            <div class="right-topbar">
+                <div>
+                    <button class="searchevents" onclick="window.location.href='{{url_for(dashboard, tab='dashboard')}}';">Dashboard</button>
+                </div>
+                <!-- userImg -->
+                <div class="user">
+
+                    <a href="{{ url_for( 'volunteerProfile') }}">
+                    {% if image == None %}
+                    <ion-icon name="person" style="padding-top: 5px;"></ion-icon>
+                    {% else %}
+                    <img src="data:image/png;base64,{{image}}" alt=""> {% endif %}
+                </a>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            {%if volunteers %} {%for v in volunteers%}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="panel panel-green userlist">
+                    <div class="panel-body text-center">
+                        <div class="userprofile">
+                            <div class="userpic"> <img src="data:image/png;base64,{{v_images[loop.index0]}}" alt="" class="userpicimg"> </div>
+                            <h3 class="username">{{v.first_name}} {{v.last_name}}</h3>
+                            <p>{{uv[loop.index0].location}}</p>
+                        </div>
+                        <strong>Bio</strong><br>
+                        <p>{{uv[loop.index0].bio}}<br>
+                            <br>
+                    </div>
+                    <div class="panel-footer"> <a href="{{url_for('displayProfile', id = v.user_id)}}" class="btn btn-link">View Profile</a> </div>
+                </div>
+            </div>
+            {%endfor%} {%endif%} {%if organizers %} {%for o in organizers%}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="panel panel-blue userlist">
+                    <div class="panel-body text-center">
+                        <div class="userprofile">
+                            <div class="userpic"> <img src="data:image/png;base64,{{o_images[loop.index0]}}" alt="" class="userpicimg"> </div>
+                            <h3 class="username">{{o.contact_name}}</h3>
+                            <p>{{uo[loop.index0].location}}</p>
+                        </div>
+                        <strong>Bio</strong><br>
+                        <p>{{uo[loop.index0].bio}}<br>
+                            <br>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="{{url_for('displayProfile', id = o.user_id)}}" class="btn btn-link">View Profile</a>
+                    </div>
+                </div>
+            </div>
+            {%endfor%} {%endif%} {%if volunteers|length == 0 and organizers|length == 0%}
+            <h2 style="color: white; text-align: center"> No Results were found. Please try again!</h2>
+            {%endif%} {%if msg %}
+            <h2 style="color: white; text-align: center"> Please enter a keyword to search for users!</h2>
+            {%endif%}
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+            <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+            <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+            <style type="text/css">
+                @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto+Condensed:wght@300&display=swap');
+                * {
+                    margin: 0;
+                    font-family: 'Roboto Condensed';
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+                
+                .panel {
+                    border-radius: 50px!important;
+                }
+                
+                .col-lg-3 {
+                    min-height: 445px;
+                }
+                
+                .panel-footer {
+                    border-bottom-left-radius: 50px!important;
+                    border-bottom-right-radius: 50px!important;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                }
+                
+                .panel-footer a {
+                    text-align: center;
+                    align-self: center;
+                }
+                
+                .btn-link {
+                    color: #dc3545 !important;
+                    text-transform: uppercase;
+                }
+                
+                body {
+                    font-family: 'Roboto', sans-serif;
+                    font-weight: 400;
+                    background-color: black;
+                    margin-top: 40px;
+                }
+                /*==============================*/
+                /*====== siderbar user profile =====*/
+                /*==============================*/
+                
+                .nav>li>a.userdd {
+                    padding: 5px 15px
+                }
+                
+                .userprofile {
+                    width: 100%;
+                    float: left;
+                    clear: both;
+                    margin: 40px auto
+                }
+                
+                .userprofile .userpic {
+                    height: 100px;
+                    width: 100px;
+                    clear: both;
+                    margin: 0 auto;
+                    display: block;
+                    border-radius: 100%;
+                    box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
+                    -moz-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
+                    -webkit-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
+                    -ms-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
+                    position: relative;
+                }
+                
+                .userprofile .userpic .userpicimg {
+                    height: auto;
+                    width: 100%;
+                    border-radius: 100%;
+                }
+                
+                .username {
+                    font-weight: 400;
+                    font-size: 20px;
+                    line-height: 20px;
+                    color: #000000;
+                    margin-top: 20px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                
+                .username+p {
+                    color: #607d8b;
+                    font-size: 13px;
+                    line-height: 15px;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+                
+                .settingbtn {
+                    height: 30px;
+                    width: 30px;
+                    border-radius: 30px;
+                    display: block;
+                    position: absolute;
+                    bottom: 0px;
+                    right: 0px;
+                    line-height: 30px;
+                    vertical-align: middle;
+                    text-align: center;
+                    padding: 0;
+                    box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.15);
+                    -moz-box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.15);
+                    -webkit-box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.15);
+                    -ms-box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.15);
+                }
+                
+                .userprofile.small {
+                    width: auto;
+                    clear: both;
+                    margin: 0px auto;
+                }
+                
+                .userprofile.small .userpic {
+                    height: 40px;
+                    width: 40px;
+                    margin: 0 10px 0 0;
+                    display: block;
+                    border-radius: 100%;
+                    box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
+                    -moz-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
+                    -webkit-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
+                    -ms-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
+                    position: relative;
+                    float: left;
+                }
+                
+                .userprofile.small .textcontainer {
+                    float: left;
+                    max-width: 100px;
+                    padding: 0
+                }
+                
+                .userprofile.small .userpic .userpicimg {
+                    min-height: 100%;
+                    width: 100%;
+                    border-radius: 100%;
+                }
+                
+                .userprofile.small .username {
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 21px;
+                    color: #000000;
+                    margin: 0px;
+                    float: left;
+                    width: 100%;
+                }
+                
+                .userprofile.small .username+p {
+                    color: #607d8b;
+                    font-size: 13px;
+                    float: left;
+                    width: 100%;
+                    margin: 0;
+                }
+                /*==============================*/
+                /*====== Social Profile css =====*/
+                /*==============================*/
+                
+                .countlist h3 {
+                    margin: 0;
+                    font-weight: 400;
+                    line-height: 28px;
+                }
+                
+                .countlist {
+                    text-transform: uppercase
+                }
+                
+                .countlist li {
+                    padding: 15px 30px 15px 0;
+                    font-size: 14px;
+                    text-align: left;
+                }
+                
+                .countlist li small {
+                    font-size: 12px;
+                    margin: 0
+                }
+                
+                .followbtn {
+                    float: right;
+                    margin: 22px;
+                }
+                
+                .userprofile.social {
+                    background: url(http://placehold.it/500x300) no-repeat top center;
+                    background-size: 100%;
+                    padding: 50px 0;
+                    margin: 0
+                }
+                
+                .userprofile.social .username {
+                    color: #ffffff
+                }
+                
+                .userprofile.social .username+p {
+                    color: #ffffff;
+                    opacity: 0.8
+                }
+                
+                .postbtn {
+                    position: absolute;
+                    right: 5px;
+                    top: 5px;
+                    z-index: 9
+                }
+                
+                .status-upload {
+                    width: 100%;
+                    float: left;
+                    margin-bottom: 15px
+                }
+                
+                .posttimeline .panel {
+                    margin-bottom: 15px
+                }
+                
+                .commentsblock {
+                    background: #f8f9fb;
+                }
+                
+                .nopaddingbtm {
+                    margin-bottom: 0
+                }
+                /*==============================*/
+                /*====== Recently connected  heading =====*/
+                /*==============================*/
+                
+                .memberblock {
+                    width: 100%;
+                    float: left;
+                    clear: both;
+                    margin-bottom: 15px
+                }
+                
+                .member {
+                    width: 24%;
+                    float: left;
+                    margin: 2px 1% 2px 0;
+                    background: #ffffff;
+                    border: 1px solid #d8d0c3;
+                    padding: 3px;
+                    position: relative;
+                    overflow: hidden
+                }
+                
+                .memmbername {
+                    position: absolute;
+                    bottom: -30px;
+                    background: rgba(0, 0, 0, 0.8);
+                    color: #ffffff;
+                    line-height: 30px;
+                    padding: 0 5px;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    width: 100%;
+                    font-size: 11px;
+                    transition: 0.5s ease all;
+                }
+                
+                .member:hover .memmbername {
+                    bottom: 0
+                }
+                
+                .member img {
+                    width: 100%;
+                    transition: 0.5s ease all;
+                }
+                
+                .member:hover img {
+                    opacity: 0.8;
+                    transform: scale(1.2)
+                }
+                
+                .panel-default>.panel-heading {
+                    color: #607D8B;
+                    background-color: #ffffff;
+                    font-weight: 400;
+                    font-size: 15px;
+                    border-radius: 0;
+                    border-color: #e1eaef;
+                }
+                
+                .btn-circle {
+                    width: 30px;
+                    height: 30px;
+                    padding: 6px 0;
+                    border-radius: 15px;
+                    text-align: center;
+                    font-size: 12px;
+                    line-height: 1.428571429;
+                }
+                
+                .page-header.small {
+                    position: relative;
+                    line-height: 22px;
+                    font-weight: 400;
+                    font-size: 20px;
+                }
+                
+                .favorite i {
+                    color: #eb3147;
+                }
+                
+                .btn i {
+                    font-size: 17px;
+                }
+                
+                .panel {
+                    box-shadow: 0px 2px 10px 0 rgba(0, 0, 0, 0.05);
+                    -moz-box-shadow: 0px 2px 10px 0 rgba(0, 0, 0, 0.05);
+                    -webkit-box-shadow: 0px 2px 10px 0 rgba(0, 0, 0, 0.05);
+                    -ms-box-shadow: 0px 2px 10px 0 rgba(0, 0, 0, 0.05);
+                    transition: all ease 0.5s;
+                    -moz-transition: all ease 0.5s;
+                    -webkit-transition: all ease 0.5s;
+                    -ms-transition: all ease 0.5s;
+                    margin-bottom: 35px;
+                    border-radius: 0px;
+                    position: relative;
+                    border: 0;
+                    display: inline-block;
+                    width: 100%;
+                }
+                
+                .panel-footer {
+                    padding: 10px 15px;
+                    background-color: #ffffff;
+                    border-top: 1px solid #eef2f4;
+                    border-bottom-right-radius: 0;
+                    border-bottom-left-radius: 0;
+                    color: #607d8b;
+                }
+                
+                .panel-blue {
+                    color: #ffffff;
+                    background-color: #03A9F4;
+                }
+                
+                .panel-red.userlist .username,
+                .panel-green.userlist .username,
+                .panel-yellow.userlist .username,
+                .panel-blue.userlist .username {
+                    color: #ffffff;
+                }
+                
+                .panel-red.userlist p,
+                .panel-green.userlist p,
+                .panel-yellow.userlist p,
+                .panel-blue.userlist p {
+                    color: rgba(255, 255, 255, 0.8);
+                }
+                
+                .panel-red.userlist p a,
+                .panel-green.userlist p a,
+                .panel-yellow.userlist p a,
+                .panel-blue.userlist p a {
+                    color: rgba(255, 255, 255, 0.8);
+                }
+                
+                .progress-bar-success,
+                .status.active,
+                .panel-green,
+                .panel-green>.panel-heading,
+                .btn-success,
+                .fc-event,
+                .badge.green,
+                .event_green {
+                    color: white;
+                    background-color: #8BC34A;
+                }
+                
+                .progress-bar-warning,
+                .panel-yellow,
+                .status.pending,
+                .panel-yellow>.panel-heading,
+                .btn-warning,
+                .fc-unthemed .fc-today,
+                .badge.yellow,
+                .event_yellow {
+                    color: white;
+                    background-color: #FFC107;
+                }
+                
+                .progress-bar-danger,
+                .panel-red,
+                .status.inactive,
+                .panel-red>.panel-heading,
+                .btn-danger,
+                .badge.red,
+                .event_red {
+                    color: white;
+                    background-color: #F44336;
+                }
+                
+                .topbar {
+                    width: 100%;
+                    height: 60px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0 10px;
+                }
+                
+                .toggle {
+                    position: relative;
+                    width: 60px;
+                    height: 60px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 2.5em;
+                    cursor: pointer;
+                }
+                
+                .search {
+                    position: relative;
+                    width: 400px;
+                    margin: 0 10px;
+                }
+                
+                .search label {
+                    position: relative;
+                    width: 100%;
+                }
+                
+                .search label input {
+                    width: 100%;
+                    height: 40px;
+                    border-radius: 40px;
+                    padding: 5px 20px;
+                    padding-left: 35px;
+                    font-size: 18px;
+                    outline: none;
+                    border: 1px solid var(--black2);
+                }
+                
+                .search label ion-icon {
+                    position: absolute;
+                    top: 0;
+                    left: 10px;
+                    font-size: 1.2em;
+                }
+                
+                .user {
+                    position: relative;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    cursor: pointer;
+                }
+                
+                .user img {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+                
+                .right-topbar {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: end;
+                }
+                
+                .searchevents {
+                    color: white;
+                    text-decoration: none;
+                    background-color: #dc3545;
+                    border: 2px solid #dc3545;
+                    margin-right: 15px;
+                    padding: 10px 10px 10px 10px;
+                    font-size: 16px;
+                    background-repeat: no-repeat;
+                    background-position: 7% 50%;
+                    border-radius: 5px;
+                    -webkit-transition-property: all;
+                    transition-property: all;
+                    -webkit-transition-duration: 0.5s;
+                    transition-duration: 0.5s;
+                }
+                
+                .searchevents:hover {
+                    color: #dc3545;
+                    border: 2px solid #dc3545;
+                    background-color: black;
+                    background-repeat: no-repeat;
+                    background-position: 10% 50%;
+                    cursor: pointer;
+                    -webkit-transition-property: all;
+                    transition-property: all;
+                    -webkit-transition-duration: 0.5s;
+                    transition-duration: 0.5s;
+                }
+            </style>
+
+            <script type="text/javascript">
+            </script>
+</body>
+
+</html>

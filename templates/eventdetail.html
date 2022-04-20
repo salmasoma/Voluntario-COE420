@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,300;0,400;0,500;0,600;0,800;1,200&display=swap" rel="stylesheet">
+
+    <!--owl-carousel-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+
+
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/eventdetails.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <script src="/path/to/cdn/jquery.min.js"></script>
+    <script src="/path/to/js/app.js"></script>
+
+    <title>Log in</title>
+</head>
+
+<body>
+    <!--
+  <div class="container-fluid">
+    <div class="header" id="header">
+        <div class="header-inner" id="header-inner">
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg my-navbar py-lg-0 py-sm-0 py-0 px-lg-0">
+                    <span></span>
+                    <img src="/static/img/logo.svg" alt="" style="width: 50px">
+                    <a class="navbar-brand" href="/">Voluntario</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon" data-scroll="out">
+                        <div id="nav-icon1">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </span>
+                    </button>
+
+                    <div class="collapse navbar-collapse mobile-menu d-flex flex-lg-row flex-column flex-xl-row justify-content-lg-end justify-content-md-start right-side" id="navbarSupportedContent">
+                        <ul class="navbar-nav align-self-stretch">
+                            <li class="nav-item"><a class="nav-link" href="faq">FAQ</a></li>
+                            <li class="nav-item"><a class="nav-link" href="about">About us</a></li>
+                            <li class="nav-item"><a class="nav-link" href="contact">contact us</a></li>
+                        </ul>
+                        <form class="form-inline my-2 my-lg-0 ml-2 align-self-stretch">
+                            <a href="register" class="header-btn">Sign Up</a>
+                        </form>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+  </div>
+      
+      -->
+
+    <div class="topbar ">
+        <div class="brand">
+            <img src="/static/img/logo.svg" alt="" style="margin-left: 15px; width: 50px">
+            <a class="navbar-brand" style="font-size: 28px; color: white;">Voluntario</a>
+        </div>
+        <div class="toggle ">
+
+        </div>
+        <!-- search -->
+        <div class="search ">
+        </div>
+        <div class="right-topbar ">
+
+            <div>
+                <button class="dashboard" onclick="window.location.href='{{url_for('dashboardVol',tab='dashboard')}}';">Dashboard</button>
+            </div>
+            <!-- userImg -->
+            <div class="user ">
+
+                <a class="normal " href="{{ url_for( 'volunteerProfile') }} ">
+                {% if image == None %}
+                <ion-icon name="person " style="padding-top: 5px; "></ion-icon>
+                {% else %}
+                <img src="data:image/png;base64,{{image}} " alt=" " class="image-profile "> {% endif %}
+            </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-style">
+        <div>
+            <a href="#" class="previous">&laquo; Back to Event List</a>
+        </div>
+        <h1 style="text-align: center; color:white;">{{event.event_name}}</h1>
+        <br>
+        <div class="column">
+
+
+            <div class="left-con">
+                <div class="row" style="text-align: right;">
+
+                    <div>
+                        <button class="button-style"><i class="fa fa-bookmark-o"></i> Bookmark</button>
+
+                    </div>
+                </div>
+
+                <h3>Description: </h3>
+                <p style="margin-bottom: 25px;">{{event.event_description}}</p>
+                <hr>
+
+                <div class="row">
+                    <div class="column" style="padding-left:1%;">
+                        <h3 style="display: inline;">Organizer: </h3>
+                        <p style="display: inline;">{{org.contact_name}}</p>
+                        <br><br>
+                        <h3 style="display: inline;">Capacity: </h3>
+                        <p style="display: inline;">{{event.capacity}} </p>
+                        <br><br>
+
+                        <h3 style="display: inline;">Category: </h3>
+                        <p style="display: inline;">{{category}} </p>
+                        <br><br>
+                        <h3 style="display: inline;">Age Limit: </h3>
+                        <p style="display: inline;">NA </p>
+
+                    </div>
+                    <div class="column" style="padding-left:10%;">
+
+                        <h3 style="display: inline;">Start Date: </h3>
+
+                        <p style="display: inline;">{{event.start_date}}</p>
+                        <br><br>
+                        <h3 style="display: inline;">End Date: </h3>
+                        <p style="display: inline;">{{event.end_date}}</p>
+                        <br><br>
+                        <h3 style="display: inline;">Number of Hours: </h3>
+                        <p style="display: inline;">{{event.hours}} </p>
+
+                    </div>
+
+                </div>
+                <hr>
+                <h3>Additional Requirements: </h3>
+                <p> can be number of hours and language spoken</p>
+                <br>
+                <div style="text-align: center;">
+                    <button class="butt-join">Join Event</button>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="column">
+
+            <div class="rtn-con container">
+                <h1 id="headline">The Event Starts In</h1>
+                <div id="countdown">
+                    <ul>
+                        <li class="li-time"><span id="days"></span>days</li>
+                        <li class="li-time"><span id="hours"></span>Hours</li>
+                        <li class="li-time"><span id="minutes"></span>Minutes</li>
+                        <li class="li-time"><span id="seconds"></span>Seconds</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+<script>
+    (function() {
+        const second = 1000,
+            minute = second * 60,
+            hour = minute * 60,
+            day = hour * 24;
+
+        //I'm adding this section so I don't have to keep updating this pen every year :-)
+        //remove this if you don't need it
+        let today = new Date(),
+            dd = String(today.getDate()).padStart(2, "0"),
+            mm = String(today.getMonth() + 1).padStart(2, "0"),
+            yyyy = today.getFullYear(),
+            hr = today.getHours(),
+            mt = today.getMinutes(),
+            sec = today.getSeconds(),
+
+            // nextYear = yyyy + 1,
+            dayMonth = "04/19/",
+            Eventdate = dayMonth + yyyy;
+
+        today = mm + "/" + dd + "/" + yyyy;
+        //if (today > Eventdate) {
+        //Eventdate = dayMonth + nextYear;
+        //}
+        //end
+
+        const countDown = new Date(Eventdate).getTime(),
+            x = setInterval(function() {
+
+                const now = new Date().getTime(),
+                    distance = countDown - now;
+
+                document.getElementById("days").innerText = Math.floor(distance / (day)),
+                    document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
+                    document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute)),
+                    document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
+
+                //do something later when date is reached
+                if (distance < 0) {
+                    document.getElementById("headline").innerText = "Event is Being Held!";
+                    document.getElementById("countdown").style.display = "none";
+                    document.getElementById("content").style.display = "block";
+                    clearInterval(x);
+                }
+                //seconds
+            }, 0)
+    }());
+</script>
+
+</html>

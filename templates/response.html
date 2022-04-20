@@ -1,0 +1,38 @@
+{% for event in events %}
+
+<div class="card-event ">
+    <article class="card" style="margin-top: 20px; ">
+
+
+        {% if not event.event_poster %}
+
+        <div class="thumb " style="background: url('/static/img/category{{event.category_id}}.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center; ">
+            {% else %}
+            <!-- 
+                TODO div with photo 
+                write the body of url() method
+            -->
+            <div class="thumb " style=" background: url(); background-size: contain; background-repeat: no-repeat; background-position: center; ">
+            </div>
+            {% endif %}
+
+        </div>
+        <div class="infos ">
+            <h2 class="title ">{{ event.event_name }}</h2>
+            <h3 class="date ">{{ event.start_date.strftime('%-d %b %Y %H:%M') }} - {{ event.end_date.strftime('%-d %b %Y %H:%M') }}</h3>
+            <h3>{{ event.user_events[0].Users.organizers[0].contact_name }} - {{ event.user_events[0].Users.rating }}&#9733;</h3>
+            <h3 class="seats ">seats remaining: {{ event.capacity - len(event.RegisteredVolunteers) }}</h3>
+            <h3 class="seats ">Hours: {{ event.hours }}</h3>
+            <p class="txt ">
+                {{ event.event_description }}
+            </p>
+            <a href="/viewEvent/{{event.event_id}}">
+                <h3 class="details">event details</h3>
+            </a>
+        </div>
+
+    </article>
+</div>
+{% endfor %} {%if events|length == 0%}
+<p style="text-align: center; font-size: 18px; margin: 0 auto;">No events match the filter criteria</p>
+{%endif%}

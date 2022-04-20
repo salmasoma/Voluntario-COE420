@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,300;0,400;0,500;0,600;0,800;1,200&display=swap" rel="stylesheet">
+
+    <!--owl-carousel-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/home.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/faq.css')}}">
+    <title>FAQ</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="header" id="header">
+            <div class="header-inner" id="header-inner">
+                <div class="container-fluid">
+                    <nav class="navbar navbar-expand-lg my-navbar py-lg-0 py-sm-0 py-0 px-lg-0">
+                        <span></span>
+                        <img src="/static/img/logo.svg" alt="" style="width: 50px">
+                        <a class="navbar-brand" href="/">Voluntario</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon" data-scroll="out">
+                            <div id="nav-icon1">
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                            </div>
+                          </span>
+                        </button>
+
+                        <div class="collapse navbar-collapse mobile-menu d-flex flex-lg-row flex-column flex-xl-row justify-content-lg-end justify-content-md-start right-side" id="navbarSupportedContent">
+                            <ul class="navbar-nav align-self-stretch">
+                                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="about">About us</a></li>
+                                <li class="nav-item"><a class="nav-link" href="contact">contact us</a></li>
+                            </ul>
+                            <form class="form-inline my-2 my-lg-0 ml-2 align-self-stretch">
+                                <a href="register" class="header-btn">Sign Up</a>
+                            </form>
+                            <form class="form-inline my-2 my-lg-0 ml-2 align-self-stretch">
+                                <a href="login" class="header-btn">Log in</a>
+                            </form>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <section class="faq-container">
+            <h2 class="title-page">
+                How can we help you?
+            </h2>
+            <div class="faq-one">
+                <!-- faq question -->
+                <h1 class="faq-page">What is voluntario?</h1>
+                <!-- faq answer -->
+                <div class="faq-body">
+                    <p>Voluntario is a free volunteering event management system that can be used by both the event organizers and volunteers. Our project is website based and is tailored for volunteers who wish to help out their community as well as to
+                        organizers, who are seeking volunteers for their organizations. This project is a rating-based system in which the organizers and volunteers can rate their experience and provide a short review in order to improve the quality of
+                        the events being posted and help future volunteers and organizers. The volunteers will be able to explore the list of ongoing events, filter them to their desired parameters, enlist in events, subscribe to mailing lists to stay
+                        updated, and rate the organizer. The organizers will be responsible for posting events, sending announcements, and rating the volunteers.
+                    </p>
+                </div>
+            </div>
+            <hr class="hr-line">
+            <div class="faq-two">
+                <!-- faq question -->
+                <h1 class="faq-page">Do I need qualifications?</h1>
+                <!-- faq answer -->
+                <div class="faq-body">
+                    <p>Not usually, no. Some volunteering opportunities require certain skills such as language requirement, or may require certain previous experience that are suited towards teh event but organisations often provide training. Often organisations
+                        are looking for personal skills, such as being able to get on with a wide variety of people, being reliable and being enthusiastic about a particular interest or cause - rather than academic qualifications.</p>
+                </div>
+            </div>
+            <hr class="hr-line">
+            <div class="faq-three">
+                <!-- faq question -->
+                <h1 class="faq-page">How old do I have to be to Volunteer?</h1>
+                <!-- faq answer -->
+                <div class="faq-body">
+                    <p>According to the rules and regulations in UAE, you must be over the age of 16 to partake in any of the volunteering oppurtunities offered. Having said that, some opportunities may have a higher age restrictions. That is typically because
+                        of the type of opportunity. You can filter your search for opportunities on our site to return volunteer opportunities for a specific age range.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer style="z-index: -1;">
+        <div class="waves">
+            <div class="wave" id="wave1"></div>
+            <div class="wave" id="wave2"></div>
+            <div class="wave" id="wave3"></div>
+            <div class="wave" id="wave4"></div>
+        </div>
+        <ul class="social_icon">
+            <li>
+                <a href="#">
+                    <ion-icon name="logo-facebook"></ion-icon>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <ion-icon name="logo-twitter"></ion-icon>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <ion-icon name="logo-linkedin"></ion-icon>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <ion-icon name="logo-instagram"></ion-icon>
+                </a>
+            </li>
+        </ul>
+        <ul class="menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="faq">FAQ</a></li>
+            <li><a href="contact">Contact</a></li>
+        </ul>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- cd-faq -->
+    <script>
+        var faq = document.getElementsByClassName("faq-page");
+        var i;
+        for (i = 0; i < faq.length; i++) {
+            faq[i].addEventListener("click", function() {
+                /* Toggle between adding and removing the "active" class,
+                to highlight the button that controls the panel */
+                this.classList.toggle("active");
+                /* Toggle between hiding and showing the active panel */
+                var body = this.nextElementSibling;
+                if (body.style.display === "block") {
+                    body.style.display = "none";
+                } else {
+                    body.style.display = "block";
+                }
+            });
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#nav-icon1,#nav-icon2,#nav-icon3,#nav-icon4').click(function() {
+                $(this).toggleClass('ham-open');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.navbar-toggler,.overlay').on("click", function() {
+                $(".mobile-menu,.overlay").toggleClass('open-nav');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(window).scrollTop() < 60) {
+                    $('.header-inner').removeClass('navbar-scroll');
+                } else {
+                    $('.header-inner').addClass('navbar-scroll');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

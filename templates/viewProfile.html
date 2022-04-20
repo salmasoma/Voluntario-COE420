@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Hello, world!</title>
+    
+    <style>
+ a:hover {
+  background-color: #dc3545;
+  
+}
+
+.card:hover{
+ background-color: #dc3545;
+}
+.card-img-top {
+    height: 300px
+}
+
+heading {
+  font-size: 25px;
+  margin-right: 25px;
+}
+
+.fa {
+  font-size: 25px;
+}
+
+.checked {
+  color:  #dc3545;
+}
+
+/* Three column layout */
+.side {
+  float: left;
+  width: 15%;
+  margin-top:10px;
+}
+
+.middle {
+  margin-top:10px;
+  float: left;
+  width: 70%;
+}
+
+/* Place text to the right */
+.right {
+  text-align: right;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* The bar container */
+.bar-container {
+  width: 100%;
+  background-color: #f1f1f1;
+  text-align: center;
+  color: white;
+}
+
+/* Individual bars */
+.bar-5 {width: 60%; height: 18px; background-color: #dc3545}
+.bar-4 {width: 30%; height: 18px; background-color: #dc3545}
+.bar-3 {width: 10%; height: 18px; background-color: #dc3545}
+.bar-2 {width: 4%; height: 18px; background-color: #dc3545}
+.bar-1 {width: 15%; height: 18px; background-color: #dc3545}
+
+/* Responsive layout - make the columns stack on top of each other instead of next to each other */
+@media (max-width: 400px) {
+  .side, .middle {
+    width: 100%;
+  }
+  .right {
+    display: none;
+  }
+  
+  }
+  .active {
+  display: block;
+}
+
+</style>
+  </head>
+  <body style="color:white; background-color:	#202020">
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <nav style="color:white; background-color:	#000000" class="navbar navbar-expand-lg ">
+  <button style="color:white;background-color:	#000000"class="btn btn-dark" onclick="openNav()">☰ </button>  
+  <img src="logo.svg" alt="img" style="max-width: 40px; max-height: 24px"></img>
+  <a style ="color:white" class="navbar-brand" href="#">Volentario</a>
+ 
+  
+      <a style ="color:white" class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+      <a style ="color:white"class="nav-link" href="#">Events</a>
+      <a style ="color:white"class="nav-link" href="#">Map</a>
+     
+   
+</nav>
+  
+  <main class="">
+    <section style ="text-align: center ;padding: 20px " class="">
+        <div class="container">
+        <img class="card-img-top" src="barca.jpeg" alt="Card image cap">
+            <div class="avatar" style="background-image: url('avatars/avatar.jpg'); margin-top:-80px; margin-bottom:20px"><img class="rounded-circle" src="IMG-9632.jpg" style="width: 150px;height: 150px;" /></div>
+            <h1 class="text-start">About Me:</h1>
+            <div class="about-me">
+                <p>Buying Barcelona is not just a dream. It is the only fight worth fighting for</p><a class="btn btn-outline-primary" role="button" href="#">Follow me</a>
+            </div>
+        </div>
+    </section>
+    <section style="padding: 20px" class="">
+        <section class="" style="padding: 100px 0px;padding-top: 0; color:black">
+            <div class="container">
+                <div class="heading"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card special-skill-item border-0">
+                            <div class="card-header bg-transparent border-0"></div>
+                            <div class="card-body">
+                                <h3 class="card-title">Total Jobs </h3>
+                                <p class="card-text">35 Jobs</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card special-skill-item border-0">
+                            <div class="card-header bg-transparent border-0"></div>
+                            <div class="card-body">
+                                <h3 class="card-title">Followers</h3>
+                                <p class="card-text">85 Followers</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card special-skill-item border-0">
+                            <div class="card-header bg-transparent border-0"></div>
+                            <div class="card-body">
+                                <h3 class="card-title">Following</h3>
+                                <p class="card-text">100 Following</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </section>
+     <nav id ="swipe" style="color:white; text-align:center;background-color:	#000000" class="navbar navbar-expand-lg ">
+    <a  style ="color:white; padding: 12px;  width: 33%;"class="nav-link" onclick ="change('id2')"data-id="1">Interest</a>
+    <a style ="color:white; padding: 12px;  width: 33%;"class="nav-link"  onclick ="change('id3')"data-id="2">Achievements</a>
+    <a style ="color:white;padding: 12px;  width: 33%;"class="nav-link" onclick ="change('id1')"data-id="3">Rating</a>
+  </nav>
+    <div id="id1">
+    <section style="padding: 20px">
+    
+    
+<span class="heading">User Rating</span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star"></span>
+<p>4.1 average based on 254 reviews.</p>
+<hr style="border:3px solid #f1f1f1">
+
+<div class="row">
+  <div class="side">
+    <div>5 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-5"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>150</div>
+  </div>
+  <div class="side">
+    <div>4 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-4"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>63</div>
+  </div>
+  <div class="side">
+    <div>3 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-3"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>15</div>
+  </div>
+  <div class="side">
+    <div>2 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-2"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>6</div>
+  </div>
+  <div class="side">
+    <div>1 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-1"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>20</div>
+  </div>
+</div>
+    
+    </section>
+    </div>
+    <div id="id2" style="display:none">
+    <section style="padding: 20px" class="">
+        <div class="container">
+            <div class="heading">
+                <h2>Interted in</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card special-skill-item border-0">
+                        <div class="card-header bg-transparent border-0"><img class="rounded-circle" src="2669475-200.png" style="height: 100px; color:black" /></div>
+                        <div style=" color:black"class="card-body">
+                            <h3 class="card-title">Iftar Destripution</h3>
+                            <p class="card-text"> </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card special-skill-item border-0">
+                        <div class="card-header bg-transparent border-0"><img class="rounded-circle" src="beach.png" style="height: 100px;width: 170px; color:black" /></div>
+                        <div style=" color:black"class="card-body">
+                            <h3 class="card-title">Clean Beaches</h3>
+                            <p class="card-text"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card special-skill-item border-0">
+                        <div class="card-header"><img class="rounded-circle" src="teach.png" style="height: 100px; color:black" /></div>
+                        <div style=" color:black" class="card-body">
+                            <h3 class="card-title">Helping Professors</h3>
+                            <p class="card-text"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+    
+    <div id ="id3" style="display:none">
+    <section style="padding: 20px">
+        <div class="container">
+            <div></div>
+            <h3>Accomplishments: </h3>
+            <div>
+                <div class="card-group">
+                    <div class="card"><img class="card-img-top w-100 d-block" />
+                        <div style=" color:black"class="card-body">
+                            <h4 class="card-title">Clean Al Noof Park</h4>
+                            <p class="card-text">Cleaning Al Noof Beach</p><button class="btn btn-primary" type="button">Button</button>
+                        </div>
+                    </div>
+                    <div style=" color:black"class="card"><img class="card-img-top w-100 d-block" />
+                        <div class="card-body">
+                            <h4 class="card-title">Providing Iftar</h4>
+                            <p class="card-text">Providing Iftar food</p><button class="btn btn-primary" type="button">Button</button>
+                        </div>
+                    </div>
+                    <div style=" color:black" class="card"><img class="card-img-top w-100 d-block" />
+                        <div class="card-body">
+                            <h4 class="card-title">Clean Sharjah Beach</h4>
+                            <p class="card-text"> I like to clean beach</p><button class="btn btn-primary" type="button">Button</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+</main>
+  
+  <footer style ="text-align: center"class="page-footer">
+    <div class="container ">
+        <div  class="links"><a style ="color:white" href="#">About me</a><br><a style ="color:white" href="#">Contact me</a></div>
+        
+         <div class="links">
+         
+         
+			
+         
+         </div>
+        
+        
+       
+    </div>
+</footer>
+
+<script>
+
+
+
+function change(n) {
+
+	for (let i = 1; i < 4; i++) {
+		document.getElementById("id"+i).style.display = "none";
+		}
+	
+	document.getElementById(n).style.display = "block";
+}
+
+</script>
+  
+  
+  </body>
+</html>

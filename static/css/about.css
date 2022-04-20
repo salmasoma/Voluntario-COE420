@@ -1,0 +1,183 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+body
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+section
+{
+    position: relative;
+}
+section::before
+{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.team-container
+{
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 40px 0;
+}
+.team-container .team-card
+{
+    position: relative;
+    width: 300px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+.team-container .team-card .content
+{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0.5;
+    transition: 0.5s;
+}
+.team-container .team-card:hover .content 
+{
+    opacity: 1;
+}
+.team-container .team-card .content .imgBx
+{
+    position: relative;
+    width:150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 10px solid rgba(0,0,0,0.25);
+
+}
+.team-container .team-card .content .imgBx img 
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    object-fit: cover;
+}
+.team-container .team-card .content .contentBx h3
+{
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    font-size: 18px;
+    text-align: center;
+    margin: 20px 0 10px;
+    line-height: 1.1em;
+}
+.team-container .team-card .content .contentBx h3 span
+{
+    font-size: 12px;
+    font-weight: 300;
+    text-transform: initial;
+}
+
+.team-container .team-card .sci {
+    position: absolute;
+    bottom: 50px;
+    display: flex;
+}
+.team-container .team-card .sci li
+{
+    list-style: none;
+    margin: 0 10px;
+    transform: translateY(40px);
+    transition: 0.5s;
+}
+.team-container .team-card:hover .sci li
+{
+    transform: translateY(0px);
+}
+.team-container .team-card .sci li a
+{
+    color: #fff;
+    font-size: 24px;
+}
+
+blockquote{
+    
+    display:block;
+    background: #fff;
+    padding: 15px 20px 15px 45px;
+    margin: 0 0 20px;
+    margin-top: 50px;
+    position: relative;
+    
+    /*Font*/
+    font-family: Georgia, serif;
+    font-size: 22px;
+    line-height: 1.2;
+    color: #666;
+    text-align: justify;
+    
+    /*Borders - (Optional)*/
+    border-left: 15px solid #dc3545;
+    border-right: 2px solid #dc3545;
+    
+    /*Box Shadow - (Optional)*/
+    -moz-box-shadow: 2px 2px 15px #ccc;
+    -webkit-box-shadow: 2px 2px 15px #ccc;
+    box-shadow: 2px 2px 15px #ccc;
+  }
+  
+  blockquote::before{
+    content: "\201C"; /*Unicode for Left Double Quote*/
+    
+    /*Font*/
+    font-family: Georgia, serif;
+    font-size: 60px;
+    font-weight: bold;
+    color: #999;
+    
+    /*Positioning*/
+    position: absolute;
+    left: 10px;
+    top:5px;
+  }
+  
+  blockquote::after{
+    /*Reset to make sure*/
+    content: "";
+  }
+  
+  blockquote a{
+    text-decoration: none;
+    background: #eee;
+    cursor: pointer;
+    padding: 0 3px;
+    color: #c76c0c;
+  }
+  
+  blockquote a:hover{
+   color: #666;
+  }
+  
+  blockquote em{
+    font-style: italic;
+  }

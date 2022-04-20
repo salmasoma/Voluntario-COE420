@@ -1,0 +1,369 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+<link href ="markAtten.css" type ="text/css" rel = "stylesheet">
+ <link rel="stylesheet" href="{{url_for('static', filename='css/markAtten.css')}}">
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+<style>
+ a:hover {
+  background-color:  #dc3545;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color:#dc3545;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #32de84 ;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.label{
+animation:none
+}
+
+
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: #dc3545;
+}
+.a:hover {
+  background-color: #dc3545;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
+
+.checked {
+  color: red;
+}
+
+.fa{
+  font-size:30px;
+  
+  color:#dc3545;
+}
+#rating{
+  font-size:0;
+  width:140px;
+}
+
+</style>
+   
+    <title>Hello, world!</title>
+  </head>
+  <body style="background-color:#000000">
+  
+   
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+    -->
+    
+    
+
+<div id="mySidebar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <a style="mask:red"href="#">Attendance</a>
+  <a href="#">Rating</a>
+  
+</div>
+
+<div style="background-color:		#000000" id="main">
+  
+  
+  
+  <nav style="background-color:#000000" class="navbar navbar-expand-lg ">
+  <button class="openbtn" onclick="openNav()">☰ </button>  
+  <img src="logo.svg" alt="img" style="max-width: 40px; max-height: 24px"></img>
+  <a style ="color:white;  "class="navbar-brand" href="#">Volentario</a>
+ 
+  
+      <a style ="color:white;  " class="nav-link " href="#">Home <span class="sr-only">(current)</span></a>
+      <a style ="color:white"class="nav-link" href="#">Events</a>
+      <a style ="color:white"class="nav-link" href="#">Map</a>
+     
+   
+</nav>
+
+ 
+  
+  <br><br>
+<div class="card-deck">
+  <div style="background-color: black;"class="card border-light mb-3 text-center">
+    <img style =" border-radius:  60%; height:200px;width: 200px; margin-left: auto; margin-right: auto; padding-top:10px" src="IMG-9632.jpg" class="card-img-top" alt="...">
+    <div class="card-body" >
+      <h5 class="card-title text-light">Hamed AlMulla</h5>
+      
+      <div id ="user1">
+        <img id="user1" src="">
+      
+   
+  
+     
+      <label class="switch">
+  				<input id="yes1" type="checkbox">
+  				<span class="slider round"></span>
+				</label>
+      
+      </div>
+      
+    </div>
+  </div>
+   <div style="background-color: black;"class="card border-light mb-3 text-center">
+    <img style =" border-radius:  70%; height:200px; width: 200px; margin-left: auto; margin-right: auto; padding-top:10px" src="IMG-9632.jpg" class="card-img-top" alt="...">
+    <div class="card-body" >
+      <h5 class="card-title text-light">Hamed AlMulla</h5>
+      
+      <div  id ="user2">
+       <img id="user2im" src="">
+      
+ 
+     
+         <label class="switch">
+  				<input id="yes2" type="checkbox">
+  				<span class="slider round"></span>
+				</label>
+      
+      </div>
+      
+    </div>
+  </div>
+   <div style="background-color: black;"class="card border-light mb-3 text-center">
+    <img style =" border-radius:  70%; height:200px; width: 200px; margin-left: auto; margin-right: auto; padding-top:10px" src="IMG-9632.jpg" class="card-img-top" alt="...">
+    <div class="card-body" >
+      <h5 class="card-title text-light">Hamed AlMulla</h5>
+      
+      <div id="user3" >
+    
+    
+  
+      
+     
+     
+      
+      
+      <label class="switch">
+  				<input id="yes3" type="checkbox"  >
+  				<span class="slider round"></span>
+				</label>
+   
+      </div>
+      
+    </div>
+  </div>
+ 
+</div>
+
+<div style="text-align:center">
+
+<button onclick ="attend()"style="text-align:center" type="button" class="btn btn-success">Attend All</button>
+
+<button onclick ="absent()"style="text-align:center" type="button" class="btn btn-danger">Absent All</button>
+</div>
+
+ <button onclick ="present()"style="text-align:center" type="button" class="btn btn-dark">Submit Attendance</button>
+</div>
+
+
+
+<script>
+function openNav() {
+  document.getElementById("mySidebar").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+
+function present(id){
+	
+	document.getElementById(id).innerHTML= "Attendance Complete ✓"
+		document.getElementById(id).style.color="white";
+	
+	document.getElementById(id).style.animation="bounce 2s linear";
+	 
+	
+	
+	
+	
+}
+
+function present(){
+	for (let i = 1; i < 4; i++) {
+		  text ="user"+i;
+		
+	document.getElementById(text).innerHTML= "Attendance Complete ✓"
+		document.getElementById(text).style.color="white";
+	
+	document.getElementById(text).style.animation="bounce 2s linear";
+	 
+	}
+	
+	
+	
+}
+function attend(){
+	
+		
+
+			
+			
+	 
+	for (let i = 1; i < 4; i++) {
+		 
+	
+		  document.getElementById("yes" +i).checked=true;
+	}
+	
+}
+
+
+function absent(){
+	
+		
+
+			
+			
+	for (let i = 1; i < 4; i++) {
+		 
+		
+		  document.getElementById("yes" +i).checked=false;
+	}
+	
+	
+		  
+	
+}
+
+
+
+</script>
+    
+    
+    
+  </body>
+</html>

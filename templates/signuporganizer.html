@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,300;0,400;0,500;0,600;0,800;1,200&display=swap" rel="stylesheet">
+
+    <!--owl-carousel-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+
+
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/home.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/signupvolunteer.css')}}">
+    <title>Organizer Sign Up</title>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="header" id="header">
+            <div class="header-inner" id="header-inner">
+                <div class="container-fluid">
+                    <nav class="navbar navbar-expand-lg my-navbar py-lg-0 py-sm-0 py-0 px-lg-0">
+                        <span></span>
+                        <img src="/static/img/logo.svg" alt="" style="width: 50px">
+                        <a class="navbar-brand" href="#">Voluntario</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon" data-scroll="out">
+                            <div id="nav-icon1">
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                            </div>
+                          </span>
+                        </button>
+
+                        <div class="collapse navbar-collapse mobile-menu d-flex flex-lg-row flex-column flex-xl-row justify-content-lg-end justify-content-md-start right-side" id="navbarSupportedContent">
+                            <ul class="navbar-nav align-self-stretch">
+                                <li class="nav-item"><a class="nav-link" href="faq">FAQ</a></li>
+                                <li class="nav-item"><a class="nav-link" href="about">About us</a></li>
+                                <li class="nav-item"><a class="nav-link" href="contact">contact us</a></li>
+                            </ul>
+                            <form class="form-inline my-2 my-lg-0 ml-2 align-self-stretch">
+                                <a href="login" class="header-btn">Log In</a>
+                            </form>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="spacer"></div>
+        <div class="form_wrapper">
+            <div class="form_container">
+                <div class="title_container">
+                    <h2>Organizer Registration Form</h2>
+                </div>
+                {% if error_msg %}
+                <p class="error_msg">{{ error_msg }} </p>{% endif %}
+                <div class="row clearfix">
+                    <div class="">
+                        <form action="{{ url_for('registerorganizer') }}" method="post" enctype="multipart/form-data">
+                            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+                                <input type="email" name="email" placeholder="Email" required />
+                            </div>
+                            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
+                                <input type="password" name="password" placeholder="Password" required />
+                            </div>
+                            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
+                                <input type="password" name="password" placeholder="Re-type Password" required />
+                            </div>
+                            <div class="input_field"> <span><i aria-hidden="true" class="fa fa-phone"></i></span>
+                                <input type="text" name="phone" placeholder="05X XXX XXXX" required />
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col_half">
+                                    <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                        <input type="text" name="name" placeholder="Contact name" />
+                                    </div>
+                                </div>
+                                <div class="col_half">
+                                    <div class="input_field"> <span><i aria-hidden="true" class="fa fa-globe"></i></span>
+                                        <input type="text" name="website" placeholder="Website" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input_field select_option">
+                                <select name="location">
+                                        <option>Select an Emirate</option>
+                                        <option value="Abu Dhabi">Abu Dhabi</option>
+                                        <option value="Dubai">Dubai</option>
+                                        <option value="Sharjah">Sharjah</option>
+                                        <option value="Ajman">Ajman</option>
+                                        <option value="umm al-quwain">Umm Al-Quwain</option>
+                                        <option value="Fujairah">Fujairah</option>
+                                        <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                    </select>
+                                <div class="select_arrow"></div>
+                            </div>
+                            <div class="input_field checkbox_option">
+                                <input type="checkbox" id="cb1">
+                                <label for="cb1">I agree with terms and conditions</label>
+                            </div>
+                            <input class="button" type="submit" value="Register" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#nav-icon1,#nav-icon2,#nav-icon3,#nav-icon4').click(function() {
+                $(this).toggleClass('ham-open');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.navbar-toggler,.overlay').on("click", function() {
+                $(".mobile-menu,.overlay").toggleClass('open-nav');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(window).scrollTop() < 60) {
+                    $('.header-inner').removeClass('navbar-scroll');
+                } else {
+                    $('.header-inner').addClass('navbar-scroll');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

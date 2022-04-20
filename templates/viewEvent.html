@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="topbar ">
+        <div class="brand">
+            <img src="/static/img/logo.svg" alt="" style="margin-left: 15px; width: 50px">
+            <a class="navbar-brand" style="font-size: 28px; color: white;">Voluntario</a>
+        </div>
+        <div class="toggle ">
+
+        </div>
+        <!-- search -->
+        <div class="search ">
+        </div>
+        <div class="right-topbar ">
+
+            <div>
+                <button class="dashboard" onclick="window.location.href='{{url_for('dashboardVol',tab='dashboard')}}';">Dashboard</button>
+            </div>
+            <!-- userImg -->
+            <div class="user ">
+
+                <a class="normal " href="{{ url_for( 'volunteerProfile') }} ">
+                {% if image == None %}
+                <ion-icon name="person " style="padding-top: 5px; "></ion-icon>
+                {% else %}
+                <img src="data:image/png;base64,{{image}} " alt=" " class="image-profile "> {% endif %}
+            </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-event">
+        <div class="row-event">
+            <div class="col-event-1">
+                {%if bookmark %}
+                <div class="bookmarkRibbon"><input id="bookmark" class="star" type="checkbox" title="bookmark page" onchange="bookmark(this)" checked></div>
+                {%else%}
+                <div class="bookmarkRibbon"><input id="bookmark" class="star" type="checkbox" title="bookmark page" onchange="bookmark(this)"></div>
+                {%endif%} {%if error %}
+                <p style="color: white;">{{error}}</p>
+                {%endif%}
+
+                <span style="display: inline; text-size-adjust: auto;">
+                <h1>{{event.event_name}}</h1>
+            </span>
+
+                <p style="text-align: center; width: 90%;">{{event.event_description}}</p>
+
+
+                <div class="left-col-event">
+                    <div class="column-event">
+                        <div class="line" style="display: inline;">
+                            <h2>Organizer: </h2>
+                            <p>{{org.contact_name}}</p>
+                        </div>
+                        <div class="line" style="display: inline;">
+                            <h2>Category: </h2>
+                            <p>{{category}}</p>
+                        </div>
+                        <div class="line" style="display: inline;">
+                            <h2>Location: </h2>
+                            <p>{{event.location}}</p>
+                        </div>
+                        <div class="line" style="display: inline;">
+                            <h2>Remaining Seats: </h2>
+                            <p>{{event.capacity-registered}}</p>
+                        </div>
+                        <div class="line" style="display: inline;">
+                            <h2>Age Limit: </h2>
+                            {%if event.EventRequirement[0]%}
+                            <p>{{event.EventRequirement[0].age_limit}}</p>
+                            {%else%}
+                            <p>None</p>
+                            {%endif%}
+                        </div>
+
+                    </div>
+                    <div class="column-event">
+                        <div class="line" style="display: inline;">
+                            <h2>Rating: </h2>
+                            <p> {%for i in range(event.user_events[0].Users.rating)%}&#9733; {%endfor%} {%for i in range(5-event.user_events[0].Users.rating)%}&#9734; {%endfor%}</p>
+                        </div>
+                        <div class="line" style="display: inline;">
+                            <h2>Start Date: </h2>
+                            <p>{{event.start_date.strftime('%-d %b %Y %H:%M %p') }}</p>
+                        </div>
+                        <div class="line" style="display: inline;">
+                            <h2>End Date: </h2>
+                            <p>{{event.end_date.strftime('%-d %b %Y %H:%M %p') }}</p>
+                        </div>
+
+                        <div class="line" style="display: inline;">
+                            <h2>Hours: </h2>
+                            <p>{{event.hours}}</p>
+                        </div>
+                        <div class="line" style="display: inline;">
+                            <h2>Location Requirement: </h2>
+                            {%if event.EventRequirement[0]%}
+                            <p>{{event.EventRequirement[0].location}}</p>
+                            {%else%}
+                            <p>None</p>
+                            {%endif%}
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="color: #dc3545; line-height: 3rem;">Additional Requirement: </h2>
+                {%if langs%} {%for l in langs%}
+                <p style="padding-left: 12px; line-height: 3rem;">-{{l}}</p>
+                {%endfor%} {%else%}
+                <p>None</p>
+                {%endif%}
+                <div class="line" style="display: inline;">
+
+
+                </div>
+
+
+
+                <button onclick="window.location.href='{{ url_for( 'joinEvent', id=event.event_id) }}';" class="btn-event" style="margin: 0 auto;">Join Event</button>
+            </div>
+            <div class="col-event-2">
+                <h1 style="text-align: center;">Countdown to Event</h1>
+                <div id="timer"></div>
+                <div class="mapContainer">
+                    <div id="map_canvas">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .column-event {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-right: 35px;
+        }
+        
+        .left-col-event {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        
+        .star {
+            visibility: hidden;
+            font-size: 30px;
+            cursor: pointer;
+            position: relative;
+            top: -25px;
+            right: -20px;
+        }
+        
+        .star:before {
+            content: "\2606";
+            visibility: visible;
+            color: #dc3545;
+        }
+        
+        .star:checked:before {
+            content: "\2605";
+        }
+        
+        .bookmarkRibbon {
+            width: 105px;
+            height: 0;
+            border-bottom: 20px solid white;
+            border-top: 20px solid white;
+            border-left: 15px solid transparent;
+            float: right;
+            margin-bottom: 20px;
+            font-size: 17px;
+            font-weight: 700;
+            position: relative;
+            right: -500px;
+            top: 90px;
+        }
+        
+        .mapContainer {
+            height: 400px;
+            width: 400px;
+            margin: 0 auto;
+        }
+        
+        #map_canvas {
+            z-index: 3;
+            position: relative;
+            height: 400px;
+            width: 400px;
+            touch-action: pan-x pan-y;
+        }
+        
+        #timer {
+            color: #F6F4F3;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 0.7em;
+            letter-spacing: 2px;
+            margin-top: 5%;
+            margin-bottom: 5%;
+        }
+        
+        .brand {
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+        }
+        
+        body {
+            background-color: black;
+        }
+        
+        .container-event {
+            width: 100%;
+            height: 100vh;
+            color: #fff;
+        }
+        
+        .row-event {
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+        
+        .col-event-1,
+        .col-event-2 {
+            flex-basis: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .col-event-2 {
+            background-color: #dc3545;
+        }
+        
+        .col-event-1 {
+            padding-left: 8%;
+        }
+        
+        .col-event-1 h1 {
+            font-size: 50px;
+            line-height: 100px;
+            margin-bottom: 10px;
+            color: #dc3545;
+            max-width: 95%;
+        }
+        
+        .col-event-1 h2 {
+            font-size: 22px;
+            margin-top: 20px;
+            font-weight: 500;
+            font-weight: 900;
+            display: inline-block;
+        }
+        
+        .col-event-1 p {
+            display: inline-block;
+            font-size: 18px;
+        }
+        
+        .btn-event {
+            display: inline-block;
+            width: fit-content;
+            padding: 18px 50px;
+            background: #dc3545;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        
+        .btn-event:hover {
+            display: inline-block;
+            width: fit-content;
+            padding: 18px 50px;
+            background: transparent;
+            border: none;
+            color: #dc3545;
+            border: 2px solid #dc3545;
+            font-size: 18px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        
+        .feature-img {
+            width: 100%;
+            text-align: center;
+        }
+        
+        .days,
+        .hours,
+        .minutes,
+        .seconds {
+            display: inline-block;
+            padding: 20px;
+            width: 100px;
+            border-radius: 5px;
+        }
+        
+        .days {
+            background: black;
+        }
+        
+        .hours {
+            background: black;
+            color: white;
+        }
+        
+        .minutes {
+            background: black;
+        }
+        
+        .seconds {
+            background: black;
+            text-align: center;
+        }
+        
+        .numbers {
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            font-size: 4em;
+        }
+        
+        .white {
+            position: absolute;
+            background: #F6F4F3;
+            height: 85px;
+            width: 75px;
+            left: 30%;
+            top: 2%;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script>
+        function bookmark(obj) {
+            if ($(obj).is(":checked")) {
+                var res = confirm("Are you sure you want to bookmark this event?");
+                if (res) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{url_for("addBookmark", id = event.event_id)}}',
+                        data: "formData",
+                        processData: false,
+                        contentType: false,
+                        success: function(data) {
+                            alert('You have successfully bookmarked this event!');
+                        },
+                        error: function(data) {
+                            console.log(data)
+                            var response = JSON.stringify(data.responseText);
+                            var jsonResponse = JSON.parse(response);
+                            var length = jsonResponse.length;
+                            jsonResponse = jsonResponse.substring(14, length - 4);
+                            alert(jsonResponse)
+                            document.getElementById("bookmark").checked = false;
+                        }
+                    })
+                }
+            } else {
+                var res = confirm("Are you sure you want to remove the bookmark for this event?");
+                if (res) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{url_for("removeBookmark", id = event.event_id)}}',
+                        data: "formData",
+                        processData: false,
+                        contentType: false,
+                        success: function(data) {
+                            alert('You have successfully removed the bookmark for this event!');
+                        },
+                        error: function() {
+                            alert('You cannot remove the bookmark for this event!');
+                            document.getElementById("checkbox").checked = true;
+                        }
+                    })
+                }
+            }
+        }
+    </script>
+    <script>
+        var day = '{{event.start_date.strftime("%-d")}}';
+        var month = '{{event.start_date.strftime("%-m")}}';
+        month = month - 1;
+        var year = '{{event.start_date.strftime("%Y")}}';
+        var hours = '{{event.start_date.strftime("%-H")}}';
+        var minutes = '{{event.start_date.strftime("%-m")}}';
+        var seconds = '{{event.start_date.strftime("%-S")}}';
+        console.log(hours)
+        var event = new Date(year, month, day, hours, minutes, seconds, 0);
+        console.log(event)
+
+        // countdown
+        let timer = setInterval(function() {
+
+            // get today's date
+            const today = new Date().getTime();
+
+            // get the difference
+            let diff;
+            if (event < today) {
+                diff = 0;
+            } else {
+                diff = event - today;
+            }
+
+            // math
+            let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            // display
+            document.getElementById("timer").innerHTML =
+                "<div class=\"days\"> \
+  <div class=\"numbers\">" + days + "</div>days</div> \
+<div class=\"hours\"> \
+  <div class=\"numbers\">" + hours + "</div>hours</div> \
+<div class=\"minutes\"> \
+  <div class=\"numbers\">" + minutes + "</div>minutes</div> \
+<div class=\"seconds\"> \
+  <div class=\"numbers\">" + seconds + "</div>seconds</div> \
+</div>";
+
+        }, 1000);
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJp-2ci6DPm4ql4Tl9jE7axfkEyb6qFTk&callback=myMap"></script>
+
+    <script>
+        var latlng;
+        var myOptions;
+        var map;
+        var myMarker;
+
+        function initialize() {
+            latlng = new google.maps.LatLng(parseFloat('{{event.lat}}'), parseFloat('{{event.long}}'));
+            myOptions = {
+                zoom: 12,
+                center: latlng,
+                mapTypeId: google.maps.MapTypeId.ROADMA
+            };
+
+            map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+            myMarker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: "map_canvas"
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<link href ="markAtten.css" type ="text/css" rel = "stylesheet">
+ <link rel="stylesheet" href="{{url_for('static', filename='css/markAtten.css')}}">
+
+<title>Insert title here</title>
+
+<style>
+
+.profile-head {
+    transform: translateY(5rem)
+}
+
+.cover {
+    background-image: url(https://images.unsplash.com/photo-1530305408560-82d13781b33a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80);
+    background-size: cover;
+    background-repeat: no-repeat
+}
+
+body {
+    background: #654ea3;
+    background: linear-gradient(to right, #e96443, #904e95);
+    min-height: 100vh;
+    overflow-x: hidden
+}
+ a:hover {
+  background-color: #dc3545;
+  
+}
+
+.card:hover{
+ background-color: #dc3545;
+}
+.card-img-top {
+    height: 300px
+}
+
+heading {
+  font-size: 25px;
+  margin-right: 25px;
+}
+
+.fa {
+  font-size: 25px;
+}
+
+.checked {
+  color:  #dc3545;
+}
+
+/* Three column layout */
+.side {
+  float: left;
+  width: 15%;
+  margin-top:10px;
+}
+
+.middle {
+  margin-top:10px;
+  float: left;
+  width: 70%;
+}
+
+/* Place text to the right */
+.right {
+  text-align: right;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* The bar container */
+.bar-container {
+  width: 100%;
+  background-color: #f1f1f1;
+  text-align: center;
+  color: white;
+}
+
+/* Individual bars */
+.bar-5 {width: 60%; height: 18px; background-color: #dc3545}
+.bar-4 {width: 30%; height: 18px; background-color: #dc3545}
+.bar-3 {width: 10%; height: 18px; background-color: #dc3545}
+.bar-2 {width: 4%; height: 18px; background-color: #dc3545}
+.bar-1 {width: 15%; height: 18px; background-color: #dc3545}
+
+/* Responsive layout - make the columns stack on top of each other instead of next to each other */
+@media (max-width: 400px) {
+  .side, .middle {
+    width: 100%;
+  }
+  .right {
+    display: none;
+  }
+  
+  }
+  .active {
+  display: block;
+}
+
+
+
+</style>
+</head>
+<body  >
+
+<div class="row py-5 px-4" >
+    <div class="" style="width:1000px; padding-left:100px">
+        <!-- Profile widget -->
+        <div class="bg-white shadow rounded overflow-hidden" >
+            <div class="px-4 pt-0 pb-4 cover">
+                <div class="media align-items-end profile-head">
+                    <div class="profile mr-3"><img src="IMG-9632.jpg" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a></div>
+                    <div class="media-body mb-5 text-white">
+                        <h4 class="mt-0 mb-0">Hamed AlMulla</h4>
+                        <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>Sharjah</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-light p-4 d-flex justify-content-end text-center" >
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Photos</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">745</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">340</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Following</small>
+                    </li>
+                </ul>
+            </div>
+            <div class="px-4 py-3">
+                 <section style="padding: 20px">
+    
+    
+<span class="heading">User Rating</span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star"></span>
+<p>4.1 average based on 254 reviews.</p>
+<hr style="border:3px solid #f1f1f1">
+
+<div class="row">
+  <div class="side">
+    <div>5 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-5"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>150</div>
+  </div>
+  <div class="side">
+    <div>4 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-4"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>63</div>
+  </div>
+  <div class="side">
+    <div>3 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-3"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>15</div>
+  </div>
+  <div class="side">
+    <div>2 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-2"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>6</div>
+  </div>
+  <div class="side">
+    <div>1 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-1"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>20</div>
+  </div>
+</div>
+    
+    </section>
+            </div>
+            <div class="py-4 px-4" style="">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="mb-0">Recent Events</h5><a href="#" class="btn btn-link text-muted">Show all</a>
+                </div>
+                <div class="row" style="padding-left:50px">
+                 <div class ="row-front">
+    <div class="row" style="width: 700px;margin-bottom: 20px;margin-left: 20px;background: url('ib.jpeg'), rgba(255,255,255,0);height: 400px;">
+    
+    
+        <div class="col" style="background: rgba(255,255,255,0.25);">
+            <div class="card" style="padding: 0px;margin-top: 10px;background: rgba(255,255,255,0);">
+                <div class="card-body text-start" style="height: 200px;padding: 16px;margin: 10px;color: rgb(255,255,255);background: rgba(255,255,255,0);">
+                    <h4 class="card-title" style="margin: 10px;color: rgb(44,44,44);">Event: Cleaning the beach</h4>
+                    <p class="card-text" style="margin: 10px;">Date: March 16, 2022</p>
+                    <p class="card-text" style="margin: 10px;">Orgainzer :Hamed AlMulla</p>
+                    <p class="card-text" style="margin: 10px;">Number of Volunteers Required: 3</p>
+                    <p class="card-text" style="margin: 10px;">Description : During the last few weeks, the kite beach has been experiencing an overflow of waste near the sea water which could harm marine life.</p>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>Location : Jumeriah</h4><iframe allowfullscreen frameborder="0" src="https://cdn.bootstrapstudio.io/placeholders/map.html" width="100%" height="400" style="height: 350px;"></iframe>
+        </div>
+    </div>
+  
+    
+    </div>
+                    
+                       </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

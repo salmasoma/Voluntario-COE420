@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,300;0,400;0,500;0,600;0,800;1,200&display=swap" rel="stylesheet">
+
+    <!--owl-carousel-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+
+
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/attendance.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/home.css')}}">
+    <title>Mark Attendance</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="header" id="header">
+            <div class="header-inner" id="header-inner">
+                <div class="container-fluid">
+                    <nav class="navbar navbar-expand-lg my-navbar py-lg-0 py-sm-0 py-0 px-lg-0">
+                        <span></span>
+                        <img src="/static/img/logo.svg" alt="" style="width: 50px">
+                        <a class="navbar-brand" href="/">Voluntario</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon" data-scroll="out">
+                            <div id="nav-icon1">
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                            </div>
+                          </span>
+                        </button>
+                        <div class="collapse navbar-collapse mobile-menu d-flex flex-lg-row flex-column flex-xl-row justify-content-lg-end justify-content-md-start right-side" id="navbarSupportedContent">
+                            <form class="form-inline my-2 my-lg-0 ml-2 align-self-stretch">
+                                <a href="/dashboardorg/events" class="header-btn">Dashboard</a>
+                            </form>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="return-back"><input action="action" class="return" onclick="window.history.go(-1); return false;" type="submit" value="&laquo; Previous" /> </div>
+    {% if volunteers|length > 0 %}
+    <div class="return-back"><input action="action" class="return next" id="next" type="submit" value=" Next &raquo;  " /> </div>
+    {%endif%}
+
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h2 class="heading-section" style="font-size: 28px; color: white;">Mark Attendance</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-wrap">
+                        {% if volunteers|length > 0 %}
+                        <table class="table table-responsive-xl">
+                            <thead>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th>Volunteer Name</th>
+                                    <th>
+                                        <div class="tablerow-btn">
+                                            Attendance
+                                            <button id="search-button-pr" class="present-btn">
+                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                                                    <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+                                                    <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 "/>
+                                                    </svg>
+                                                <p class="success">Mark All Present</p>
+                                            </button>
+                                            <button id="search-button-ab" class="absent-btn">
+                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                                                    <circle class="path circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+                                                    <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
+                                                    <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
+                                                    </svg>
+                                                <p class="error">Mark All Absent</p>
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for v in volunteers %}
+                                <tr class="alert" role="alert">
+                                    <td>
+
+                                    </td>
+                                    <td class="d-flex align-items-center">
+                                        <img class="img" src="data:image/png;base64,{{images[loop.index0]}}">
+                                        <div class="pl-3 email ">
+                                            <span>{{v.first_name}} {{v.last_name}}</span>
+                                        </div>
+                                    </td>
+                                    <td><label class="checkbox-wrap checkbox-primary">
+                                        <input type="checkbox" name="attendance" id="chk{{v.user_id}}" value="{{v.user_id}}">
+                                        <span class="checkmark"></span>
+                                      </label></td>
+                                    <td class="status "><span class="absent" id="status-chk{{v.user_id}}">Absent</span></td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                        {%else%}
+                        <p style="font-size: 20px; color:white;">There are no Volunteers registered for this event!</p>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="/static/js/bootstrap.min.js "></script>
+    <script src="/static/js/popper.js "></script>
+    <script src="/static/js/jquery.min.js "></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js "></script>
+
+    <script type="text/javascript " src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js "></script>
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js "></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJp-2ci6DPm4ql4Tl9jE7axfkEyb6qFTk&callback=myMap "></script>
+
+    <script src="{{url_for( 'static', filename='/js/postEvent.js' )}} "></script>
+
+    <script>
+        document.getElementById('search-button-pr').onclick = function() {
+            var checkboxes = document.getElementsByName('attendance');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = true;
+                document.getElementById("status-" + checkbox.id).className = "present";
+                document.getElementById("status-" + checkbox.id).innerHTML = "Present";
+            }
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+    <script>
+        document.getElementById('next').onclick = function() {
+            var formData = new FormData()
+            var checkbox_value = "";
+            $(":checkbox").each(function() {
+                var ischecked = $(this).is(":checked");
+                if (ischecked) {
+                    checkbox_value += $(this).val() + "|";
+                }
+            });
+            formData.append("checked", checkbox_value)
+            console.log(checkbox_value)
+            $.ajax({
+                type: 'POST',
+                url: '/attendance/{{id}}/list',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(json) {
+                    var data = JSON.parse(json);
+                    if (data.mode == "remain") {
+                        window.location.href = "/reviewattendance/{{id}}/";
+                    } else {
+                        alert('Attendance was marked sucessfully!');
+                        window.location.href = "/dashboardorg";
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
+        document.getElementById('search-button-ab').onclick = function() {
+            var checkboxes = document.getElementsByName('attendance');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = false;
+                document.getElementById("status-" + checkbox.id).className = "absent";
+                document.getElementById("status-" + checkbox.id).innerHTML = "Absent";
+            }
+        }
+    </script>
+    <script>
+        var checkboxes = document.querySelectorAll("input[type=checkbox][name=attendance]");
+        let enabledSettings = []
+
+        // Use Array.forEach to add an event listener to each checkbox.
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                if (checkbox.checked) {
+                    document.getElementById("status-" + checkbox.id).className = "present";
+                    document.getElementById("status-" + checkbox.id).innerHTML = "Present";
+                } else {
+                    document.getElementById("status-" + checkbox.id).className = "absent";
+                    document.getElementById("status-" + checkbox.id).innerHTML = "Absent";
+                }
+            })
+        });
+    </script>
+    <script>
+        $('.slide-one-item-alt').owlCarousel({
+            center: false,
+            items: 1,
+            dots: false,
+            loop: true,
+            margin: 0,
+            smartSpeed: 1000,
+            autoplay: true,
+            pauseOnHover: true,
+            onDragged: function(event) {
+                console.log('event : ', event.relatedTarget['_drag']['direction'])
+                if (event.relatedTarget['_drag']['direction'] == 'left') {
+                    $('.slide-one-item-alt-text').trigger('next.owl.carousel');
+                } else {
+                    $('.slide-one-item-alt-text').trigger('prev.owl.carousel');
+                }
+            }
+        });
+
+
+        $('.slide-one-item-alt-text').owlCarousel({
+            center: false,
+            items: 1,
+            dots: false,
+            loop: true,
+            margin: 0,
+            smartSpeed: 1000,
+            autoplay: true,
+            pauseOnHover: true,
+            onDragged: function(event) {
+                console.log('event : ', event.relatedTarget['_drag']['direction'])
+                if (event.relatedTarget['_drag']['direction'] == 'left') {
+                    $('.slide-one-item-alt').trigger('next.owl.carousel');
+                } else {
+                    $('.slide-one-item-alt').trigger('prev.owl.carousel');
+                }
+            }
+        });
+
+
+
+
+        $('.custom-next').click(function(e) {
+            e.preventDefault();
+            $('.slide-one-item-alt').trigger('next.owl.carousel');
+            $('.slide-one-item-alt-text').trigger('next.owl.carousel');
+        });
+
+        $('.custom-prev').click(function(e) {
+            e.preventDefault();
+            $('.slide-one-item-alt').trigger('prev.owl.carousel');
+            $('.slide-one-item-alt-text').trigger('prev.owl.carousel');
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#nav-icon1,#nav-icon2,#nav-icon3,#nav-icon4').click(function() {
+                $(this).toggleClass('ham-open');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.navbar-toggler,.overlay').on("click ", function() {
+                $(".mobile-menu,.overlay ").toggleClass('open-nav');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(window).scrollTop() < 60) {
+                    $('.header-inner').removeClass('navbar-scroll');
+                } else {
+                    $('.header-inner').addClass('navbar-scroll');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

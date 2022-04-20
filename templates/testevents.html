@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        #loading {
+            text-align: center;
+            background: url('images/loading.gif') no-repeat center;
+            height: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <br />
+            <h2 style='text-align:"center";'>Product Filters Price Range Using Python Flask Mysql and Jquery Ajax</h2>
+            <br />
+            <div class="col-md-3">
+                <div class="list-group">
+                    <h3>Hours</h3>
+                    <input type="hidden" id="hidden_minimum_hours" value="0" />
+                    <input type="hidden" id="hidden_maximum_hours" value="100" />
+                    <p id="hour_show">10 - 100</p>
+                    <div id="hour_range"></div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row filter_data">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            filter_data();
+
+            function filter_data() {
+                $('.filter_data').html('<div id="loading" style="" ></div>');
+                var action = 'fetch_data';
+                var minimum_hours = $('#hidden_minimum_hours').val();
+                var maximum_hours = $('#hidden_maximum_hours').val();
+                console.log(minimum_price)
+                $.ajax({
+                    url: "/fetchevents",
+                    method: "POST",
+                    data: {
+                        action: action,
+                        minimum_hours: minimum_hours,
+                        maximum_hours: maximum_hours
+                    },
+                    success: function(data) {
+                        $('.filter_data').html(data);
+                        $(".filter_data").append(data.htmlresponse);
+                    }
+                });
+            }
+            $('#hour_range').slider({
+                range: true,
+                min: 1,
+                max: 100,
+                values: [1, 100],
+                step: 1,
+                stop: function(event, ui) {
+                    $('#hour_show').html(ui.values[0] + ' - ' + ui.values[1]);
+                    $('#hidden_minimum_hours').val(ui.values[0]);
+                    $('#hidden_maximum_hours').val(ui.values[1]);
+                    filter_data();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

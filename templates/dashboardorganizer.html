@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="/static/bower/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css">
+
+    <link rel="stylesheet" href="/static/css/calendar.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/dashboard.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/announcements.css')}}">
+
+    <link href="/static/css/context-menu.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="navigation">
+            <div class="ibm-tab-section">
+                <ul class="ibm-tabs" role="tablist">
+                    <li>
+                        <a href="#">
+                            <div class="logo-text">
+                                <span class="icon"><img src="/static/img/logo.svg" alt="" style="width: 50px;"></span>
+                                <span class="title" style="font-size: 1.5em;font-weight: 500; margin-left: 10px;">Voluntario</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li {%if tab=="dashboard" %} class="hovered" {%endif%}>
+                        <a aria-selected="true" role="tab" href="#dashboard">
+                            <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                            <span class="title active tab">Dashboard</span>
+                        </a>
+                    </li>
+                    <li {%if tab=="events" %} class="hovered" {%endif%}>
+                        <a role="tab" href="#events">
+                            <span class="icon"><ion-icon name="pin"></ion-icon></span>
+                            <span class="title tab">Events</span>
+                        </a>
+                    </li>
+                    <li {%if tab=="calendar" %} class="hovered" {%endif%}>
+                        <a role="tab" href="#calendar">
+                            <span class="icon"><ion-icon name="calendar"></ion-icon></span>
+                            <span class="title tab">Calendar</span>
+                        </a>
+                    </li>
+                    <li {%if tab=="rate" %} class="hovered" {%endif%}>
+                        <a role="tab" href="#rate">
+                            <span class="icon"><ion-icon name="star"></ion-icon></span>
+                            <span class="title tab">Rating</span>
+                        </a>
+                    </li>
+                    <li {%if tab=="settings" %} class="hovered" {%endif%}>
+                        <a role="tab" href="#settings">
+                            <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
+                            <span class="title tab">Settings</span>
+                        </a>
+                    </li>
+                    <li {%if tab=="signout" %} class="hovered" {%endif%}>
+                        <a role="tab" href="#signout">
+                            <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                            <span class="title tab">Sign Out</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+                <!-- search -->
+                <div class="search">
+                    <form method="post" action="{{url_for('search')}}">
+                        <label>
+                            <input type="text" placeholder="Search here" name="searched">
+                            <ion-icon name="search-outline"></ion-icon>
+                        </label>
+                    </form>
+                </div>
+                <!-- userImg -->
+                <div class="user">
+                    <a href="{{url_for('organizerProfile')}}">
+                    {% if image == None %}
+                    <ion-icon name="person" style="padding-top: 5px;"></ion-icon>
+                    {% else %}
+                    <img src="data:image/png;base64,{{image}}" alt=""> {% endif %}
+                </a>
+                </div>
+            </div>
+            <div id="dashboard" class="ibm-tabs-content">
+                {% if message %}
+                <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <!-- <strong>Title</strong> -->{{ message }}
+                </div>
+                {% endif %}
+                <!-- cards -->
+                <div class="cardBox">
+                    <div class="card">
+                        <div>
+                            <div class="numbers">{{totalEvents}}</div>
+                            <div class="cardName">Events Hosted</div>
+                        </div>
+                        <div class="iconBx">
+                            <ion-icon name="time"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div>
+                            <div class="numbers">{{volCount}}</div>
+                            <div class="cardName">Volunteers Recruited</div>
+                        </div>
+                        <div class="iconBx">
+                            <ion-icon name="list"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div>
+                            <div class="numbers">{{total_reviews}}</div>
+                            <div class="cardName">Reviews</div>
+                        </div>
+                        <div class="iconBx">
+                            <ion-icon name="chatbubbles-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div>
+                            <div class="numbers">{% if user.rating == None %} 0 {% else %} {{"{:.2f}".format(user.rating)}} {% endif %} </div>
+                            <div class="cardName">Rating</div>
+                        </div>
+                        <div class="iconBx">
+                            <ion-icon name="star"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add Charts -->
+                <div class="graphBox">
+                    <div class="box">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                    <div class="box">
+                        <canvas id="hours"></canvas>
+                    </div>
+                </div>
+                <div class="details">
+                    <!-- order details list -->
+                    <div class="recentEvents">
+                        <div class="cardHeader">
+                            <h2>Recent Events</h2>
+                        </div>
+                        {%if event_details|length == 0%}
+                        <p class="noevents">You have no recent events yet</p>
+                        {%else%}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Hours</td>
+                                    <td>Status</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for e in event_details %}
+                                <tr>
+                                    <td>{{e.event_name}}</td>
+                                    <td>{{e.hours}}</td>
+                                    <td><span class="status {{status[loop.index0]}}">{{status[loop.index0]}}</span></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+            <div id="events" class="ibm-tabs-content">
+                <div class="details">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 text-center mb-5">
+                            <h1 class="heading-section" style="color:#dc3545; font-weight: bold;">Events</h1>
+                        </div>
+                    </div>
+                    <div class="post-event">
+                        <button type="button" class="button-3" onclick="window.location.href='{{ url_for( 'postEvent') }}';">Post an Event</button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-wrap">
+
+                                <table class="table table-responsive-xl table-striped" id="table1">
+                                    <thead>
+                                        <tr>
+                                            <th>Event Title</th>
+                                            <th>Start Date</th>
+                                            <!--- <th>Description</th> -->
+                                            <th>Status</th>
+                                            <th>&nbsp;</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if event_details|length > 0%} {%for e in event_details %}
+                                        <tr class="alert" role="alert">
+                                            <td class="d-flex align-items-center">
+                                                <div class="img" style="background-image: url(images/person_1.jpg);"></div>
+                                                {{e.event_name}}
+                                            </td>
+                                            <td>{{e.start_date.strftime("%a %-d %b %Y")}}</td>
+                                            <!--<td>{{e.event_description}}</td>-->
+                                            <td class="status"><span class="{{eStatus[e.events_status_id-1]}}" style="white-space: nowrap">{{eStatus[e.events_status_id-1]}}</span></td>
+                                            <td>
+                                                <div class="row-buttons">
+                                                    <a class="button edit" onclick="window.location.href='/editEvent/{{e.event_id}}';">Edit</a>
+                                                    <a class="button email" onclick="window.location.href='/announcements/{{e.event_id}}';">Send Announcement</a>
+                                                    <a class="button delete" onclick="confirmation({{e.event_id}});">Delete</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <li class="menuli" style="text-decoration: none;">
+                                                    <div class="test"></div><i class='down dropdown'></i>
+                                                    <div class='dropdown'>
+                                                        <a class='drop-link' onclick="window.location.href='/markattendance/{{e.event_id}}';">Mark Attendance</a>
+                                                        <a class='drop-link' onclick="markComplete({{e.event_id}})">Mark Complete</a>
+                                                    </div>
+                                                </li>
+                                            </td>
+                                        </tr>
+                                        {%endfor %} {%endif%}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="calendar" class=" ibm-tabs-content">
+                <h1 style="text-align: center; font-weight: bold; margin-top: 15px;">My Calendar</h1>
+                <div class="calendar disable-selection" id="calendar">
+                    <div class="left-side">
+                        <div class="current-day text-center">
+                            <h1 class="calendar-left-side-day"></h1>
+                            <div class="calendar-left-side-day-of-week"></div>
+                        </div>
+                        <div class="current-day-events">
+                            <div>Current Events:</div>
+                            <ul class="current-day-events-list">
+
+                            </ul>
+                        </div>
+                        <div class="add-event-day">
+                            <input type="text" class="add-event-day-field" placeholder="Create an Event">
+                            <span class="fa fa-plus-circle cursor-pointer add-event-day-field-btn"></span>
+                        </div>
+                    </div>
+                    <div class="right-side">
+                        <div class="text-right calendar-change-year">
+                            <div class="calendar-change-year-slider">
+                                <span class="fa fa-caret-left cursor-pointer calendar-change-year-slider-prev"></span>
+                                <span class="calendar-current-year"></span>
+                                <span class="fa fa-caret-right cursor-pointer calendar-change-year-slider-next"></span>
+                            </div>
+                        </div>
+                        <div class="calendar-month-list">
+                            <ul class="calendar-month"></ul>
+                        </div>
+                        <div class="calendar-week-list">
+                            <ul class="calendar-week"></ul>
+                        </div>
+                        <div class="calendar-day-list">
+                            <ul class="calendar-days"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="settings" class="ibm-tabs-content">
+                <div class="container-box" id="settings">
+                    <div class="leftbox">
+                        <nav>
+                            <a onclick="tabs(0)" class="tab active">
+                                <i class="fa fa-user"></i>
+                            </a>
+                            <a onclick="tabs(1)" class="tab">
+                                <i class="fa fa-list-alt"></i>
+                            </a>
+                            <a onclick="tabs(2)" class="tab">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </nav>
+                    </div>
+                    <div class="rightbox">
+                        <div class="profile tabShow">
+                            <form id="personal" method="post" enctype="multipart/form-data">
+                                <h1 class="setting-title">Personal Info</h1>
+                                <div class="img-profile">
+                                    <div class="profile-pic-div">
+                                        <img src="data:image/png;base64,{{image}}" id="photo">
+                                        <input type="file" id="file" name="file">
+                                        <label for="file" id="uploadBtn">Choose Photo</label>
+                                    </div>
+                                </div>
+                                <h2 class="setting-label">Email</h2>
+                                <input class="input" type="email" name="email" placeholder="{{user.email}}" id="email" />
+                                <h2 class="setting-label">Phone</h2>
+                                <input class="input" type="text" name="phone" placeholder="{{user.phone}}" id="phone" />
+                                <h2 class="setting-label">Contact Name</h2>
+                                <input class="input" type="text" name="name" placeholder="{{organizer.contact_name}}" id="name" />
+                                <h2 class="setting-label">Website</h2>
+                                <input class="input" type="text" name="website" placeholder="{{organizer.website}}" id="website" />
+                                <h2 class="setting-label">Location</h2>
+                                <select name="location" id="location">
+                                    <option>Select an Emirate</option>
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Sharjah">Sharjah</option>
+                                    <option value="Ajman">Ajman</option>
+                                    <option value="umm al-quwain">Umm Al-Quwain</option>
+                                    <option value="Fujairah">Fujairah</option>
+                                    <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                  </select>
+                                <div class="select_arrow"></div>
+
+                                <h2 class="setting-label">Password</h2>
+                                <input type="password" class="input" name="password" value="xxxx" id="password">
+
+                                <button id="upload" type="submit" class="btn-settings">Update</button>
+                            </form>
+                        </div>
+                        <div class="mailing tabShow">
+                            <form id="mailing" action="">
+                                <h1 class="setting-title">Mailing List</h1>
+                                {% if categories %} {%for c in categories%}
+                                <div class="check">
+                                    <input type="checkbox" class="apple-switch" name="check" value="{{c.category_id}}" {%if c.category_id in user_cat %} {{ "checked"}} {% endif %}/>
+                                    <p>{{c.category_name}}</p>
+                                </div>
+                                {% endfor %} {% endif %}
+                                <button id="upload" type="submit" class="btn-settings">Update</button>
+                            </form>
+                        </div>
+                        <div class="delaccount tabShow">
+                            <form id="delaccount" action="">
+                                <h1 class="setting-title">Are you sure you want to delete your account?</h1>
+
+                                <button id="upload" type="submit" class="btn-settings">Permanently Delete Account</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div id="signout" class="ibm-tabs-content">
+                <div class="details">
+                    <div class="pop-up">
+                        <h1 style="text-align:center;">Are you sure you want to log out?</h1>
+                        <div class="buttons">
+                            <a href="{{url_for('dashboardOrg',tab='singout')}}" class="buttons btn-cancel">Cancel</a>
+                            <a href="{{url_for('logout')}}" class="buttons">Log Out</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="rate" class="ibm-tabs-content">
+                <div class="details">
+                    {% if vols|length > 0 %}
+                    <p class="noannouncement">Pending Reviews</p>
+                    <div class="rate-row">
+                        {%for v in vols%}
+
+                        <div class="rate-column">
+                            <div class="rate-card">
+                                <img src="data:image/png;base64,{{review_img[loop.index0]}}" style="height: 120px; width:120px; margin-top: 15px;">
+                                <h3 style="font-size: 18px;">{{v.first_name}} {{v.last_name}}</h3>
+                                <div>
+                                    <strong style="color: #dc3545; font-size: bold;">Event Title: </strong> {{review_ev[loop.index0].event_name}} <br> <strong style="color: #dc3545; font-size: bold;">Event Date: </strong> {{review_ev[loop.index0].start_date.strftime("%a
+                                    %-d %b %Y")}}
+                                </div>
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form"> Leave a Review </button>
+                                <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="text-right cross"> <i class="fa fa-times mr-2"></i> </div>
+                                            <form action="{{ url_for('postReview',id=v.user_id,event=review_ev[loop.index0].event_id) }}" method="POST">
+                                                <div class="card-body text-center"> <img src=" https://i.imgur.com/d2dKtI7.png" height="100" width="100">
+                                                    <div class="comment-box text-center">
+                                                        <h4>Add a comment</h4>
+                                                        <div class="rating">
+                                                            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                                                            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                                            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                                            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                                            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                                        </div>
+                                                        <div class="comment-area"> <textarea class="form-control" name="comment" placeholder="Review" rows="5" style="height:70px;"></textarea> </textarea>
+                                                        </div>
+                                                        <div class="text-center mt-4"> <button class="btn btn-success send px-5" type="submit">Send message <i class="fa fa-long-arrow-right ml-1"></i></button> </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {%endfor%} {%else%}
+                        <p class="noannouncement">You have no pending reviews!</p>
+                    </div>
+                    {%endif%}
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- main -->
+
+    </div>
+    <script src="{{url_for('static', filename='/js/postEvent.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="/static/js/context-menu.js"></script>
+    <script>
+        function confirmation(id) {
+            var result = confirm("Are you sure you want to delete event?");
+            console.log(id)
+            if (result) {
+                window.location.href = '/deleteEvent/' + id;
+            }
+        }
+    </script>
+    <script>
+        function markComplete(id) {
+            var result = confirm("Are you sure you want to mark event as complete?");
+            console.log(id)
+            if (result) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/completeEvent/' + id,
+                    data: "formData",
+                    processData: false,
+                    contentType: false,
+                    success: function() {
+                        alert('You have successfully marked this event as complete!');
+                    },
+                    error: function() {
+                        alert('You cannot mark the event as complete at this time!');
+                    }
+                })
+            }
+
+            window.location.href = '/dashboardorg/events';
+        }
+    </script>
+    <script>
+        $(function() {
+            $("#{{tab}}").show();
+        });
+        $('.ibm-tabs li a').on('click', function(e) {
+            e.preventDefault();
+            $('.ibm-tabs-content').hide();
+            let IDSelector = $(this).attr('href');
+            $(IDSelector).show();
+        })
+    </script>
+    <script>
+        const tabBtn = document.querySelectorAll(".tab");
+        const tab = document.querySelectorAll(".tabShow");
+
+        function tabs(panelIndex) {
+            tab.forEach(function(node) {
+                node.style.display = "none";
+            });
+            tab[panelIndex].style.display =
+                "block";
+        }
+        tabs(0);
+    </script>
+    <script>
+        $(".tab").click(function() {
+            $(this).addClass("active").siblings().removeClass("active");
+        })
+    </script>
+    <script>
+        $(document).on('submit', '#delAccount', function(e) {
+            var result = confirm("Are you sure to permanently delete your account? This step cannot be undone!");
+            if (results) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/delete/{{user.user_id}}',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function() {
+                        alert('Account was deleted!');
+                    }
+                })
+                window.location.href = '';
+            }
+        });
+    </script>
+    <script>
+        var tableContextMenu = null;
+
+        $(document).ready(function() {
+            var options = {
+                openCallBack: function(contextMenu) {
+                    contextMenu.disableMenuItem("Warning Item");
+                }
+            };
+            tableContextMenu = new ContextMenu("context-menu-items", menuItemClickListener);
+            tableContextMenu.disableMenuItem(1);
+        });
+
+        function menuItemClickListener(menu_item, parent) {
+            if (menu_item.text() === "Re-enable item 2") {
+                tableContextMenu.enableMenuItem("Item 2");
+                //As we can't enable item 2 again, then why not disable the menu item to re-enable
+                tableContextMenu.disableMenuItem(3);
+            } else {
+                alert("Menu Item Clicked: " + menu_item.text() + "\nRecord ID: " + parent.attr("data-row-id"));
+            }
+        }
+    </script>
+    <script>
+        // MenuToggle
+        let toggle = document.querySelector('.toggle');
+        let navigation = document.querySelector('.navigation');
+        let main = document.querySelector('.main');
+
+        toggle.onclick = function() {
+            navigation.classList.toggle('active');
+            main.classList.toggle('active');
+        }
+
+        // add hovered class in selected list item
+        let list = document.querySelectorAll('.navigation li');
+
+        function activeLink() {
+            list.forEach((item) =>
+                item.classList.remove('hovered'));
+            this.classList.add('hovered');
+        }
+        list.forEach((item) =>
+            item.addEventListener('mouseover', activeLink));
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script>
+        var tableContextMenu = null;
+
+        $(document).ready(function() {
+            var options = {
+                openCallBack: function(contextMenu) {
+                    contextMenu.disableMenuItem("Warning Item");
+                }
+            };
+            tableContextMenu = new ContextMenu("context-menu-items", menuItemClickListener);
+            tableContextMenu.disableMenuItem(1);
+        });
+
+        function menuItemClickListener(menu_item, parent) {
+            if (menu_item.text() === "Re-enable item 2") {
+                tableContextMenu.enableMenuItem("Item 2");
+                //As we can't enable item 2 again, then why not disable the menu item to re-enable
+                tableContextMenu.disableMenuItem(3);
+            } else {
+                alert("Menu Item Clicked: " + menu_item.text() + "\nRecord ID: " + parent.attr("data-row-id"));
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).on('submit', '#personal', function(e) {
+            console.log("hello")
+            var formData = new FormData($('#personal')[0]);
+            formData.append('file', $('#file').prop('files')[0]);
+            formData.append(email, $("#email").val());
+            formData.append(phone, $("#phone").val());
+            formData.append(name, $("#name").val());
+            formData.append(website, $("#website").val());
+            formData.append(password, $("#password").val());
+            formData.append(location, $("#location").val());
+            console.log(formData)
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/updateorg',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function() {
+                    alert('Personal info was updated sucessfully!');
+                }
+            })
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).on('submit', '#mailing', function(e) {
+            var formData = new FormData()
+            var checkbox_value = "";
+            $(":checkbox").each(function() {
+                var ischecked = $(this).is(":checked");
+                if (ischecked) {
+                    checkbox_value += $(this).val() + "|";
+                }
+            });
+            formData.append("checked", checkbox_value)
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/updatecat',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function() {
+                    alert('Mailing Subscription was updated sucessfully!');
+                }
+            })
+        });
+    </script>
+    <script>
+        //declearing html elements
+
+        const imgDiv = document.querySelector('.profile-pic-div');
+        const img = document.querySelector('#photo');
+        const file = document.querySelector('#file');
+        const uploadBtn = document.querySelector('#uploadBtn');
+
+        //if user hover on img div 
+
+        imgDiv.addEventListener('mouseenter', function() {
+            uploadBtn.style.display = "block";
+        });
+
+        //if we hover out from img div
+
+        imgDiv.addEventListener('mouseleave', function() {
+            uploadBtn.style.display = "none";
+        });
+
+        //lets work for image showing functionality when we choose an image to upload
+
+        //when we choose a foto to upload
+
+        file.addEventListener('change', function() {
+            //this refers to file
+            const choosedFile = this.files[0];
+
+            if (choosedFile) {
+
+                const reader = new FileReader(); //FileReader is a predefined function of JS
+
+                reader.addEventListener('load', function() {
+                    img.setAttribute('src', reader.result);
+                });
+
+                reader.readAsDataURL(choosedFile);
+
+
+            }
+        });
+    </script>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var earning = document.getElementById('hours').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'polarArea',
+            data: {
+                labels: ['Environmental', 'Animals', 'Shelter', 'Community Service', 'Healthcare', 'Social', 'Others'],
+                datasets: [{
+                    label: 'Events per Category',
+                    data: ['{{events_category[0]}}', '{{events_category[1]}}', '{{events_category[2]}}', '{{events_category[3]}}', '{{events_category[4]}}', '{{events_category[5]}}', '{{events_category[6]}}'],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 99, 132, 1)',
+                    ],
+
+                }]
+            },
+            options: {
+                responsive: true,
+            }
+        });
+
+        var myChart = new Chart(hours, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [{
+                    label: 'Events',
+                    data: ['{{month[0]}}', '{{month[1]}}', '{{month[2]}}', '{{month[3]}}', '{{month[4]}}', '{{month[5]}}', '{{month[6]}}', '{{month[7]}}', '{{month[8]}}', '{{month[9]}}', '{{month[10]}}', '{{month[11]}}'],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                }]
+            },
+            options: {
+                responsive: true,
+            }
+        });
+    </script>
+    <script>
+        const AVAILABLE_WEEK_DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const localStorageName = 'calendar-events' + '{{user.user_id}}';
+
+        class CALENDAR {
+            constructor(options) {
+                this.options = options;
+                this.elements = {
+                    days: this.getFirstElementInsideIdByClassName('calendar-days'),
+                    week: this.getFirstElementInsideIdByClassName('calendar-week'),
+                    month: this.getFirstElementInsideIdByClassName('calendar-month'),
+                    year: this.getFirstElementInsideIdByClassName('calendar-current-year'),
+                    eventList: this.getFirstElementInsideIdByClassName('current-day-events-list'),
+                    eventField: this.getFirstElementInsideIdByClassName('add-event-day-field'),
+                    eventAddBtn: this.getFirstElementInsideIdByClassName('add-event-day-field-btn'),
+                    currentDay: this.getFirstElementInsideIdByClassName('calendar-left-side-day'),
+                    currentWeekDay: this.getFirstElementInsideIdByClassName('calendar-left-side-day-of-week'),
+                    prevYear: this.getFirstElementInsideIdByClassName('calendar-change-year-slider-prev'),
+                    nextYear: this.getFirstElementInsideIdByClassName('calendar-change-year-slider-next')
+                };
+                this.eventList = JSON.parse(localStorage.getItem(localStorageName)) || {};
+
+                this.date = +new Date();
+                this.options.maxDays = 37;
+                this.init();
+            }
+
+            // App methods
+            init() {
+                if (!this.options.id) return false;
+                this.eventsTrigger();
+                this.drawAll();
+            }
+
+            // draw Methods
+            drawAll() {
+                this.drawWeekDays();
+                this.drawMonths();
+                this.drawDays();
+                this.drawYearAndCurrentDay();
+                this.drawEvents();
+
+            }
+
+            drawEvents() {
+                let calendar = this.getCalendar();
+                let eventList = this.eventList[calendar.active.formatted] || ['There is not any events'];
+                let eventTemplate = "";
+                let day = 0;
+                let month = 0;
+                let year = 0;
+                let date = "";
+                '{%for e in event_details%}'
+                day = '{{e.start_date.strftime("%-d")}}';
+                month = '{{e.start_date.strftime("%-m")}}';
+                month = parseInt(month) - 1;
+                year = '{{e.start_date.strftime("%Y")}}';
+                date = day + "/" + month + "/" + year;
+                if (calendar.active.formatted == date) {
+                    eventTemplate += `<li>{{e.event_name}}</li>`;
+                }
+                '{% endfor %}'
+                if (eventTemplate == "") {
+                    eventList.forEach(item => {
+                        eventTemplate += `<li>${item}</li>`;
+                    });
+                }
+                this.elements.eventList.innerHTML = eventTemplate;
+            }
+
+            drawYearAndCurrentDay() {
+                let calendar = this.getCalendar();
+                this.elements.year.innerHTML = calendar.active.year;
+                this.elements.currentDay.innerHTML = calendar.active.day;
+                this.elements.currentWeekDay.innerHTML = AVAILABLE_WEEK_DAYS[calendar.active.week];
+            }
+
+            drawDays() {
+                let calendar = this.getCalendar();
+
+                let latestDaysInPrevMonth = this.range(calendar.active.startWeek).map((day, idx) => {
+                    return {
+                        dayNumber: this.countOfDaysInMonth(calendar.pMonth) - idx,
+                        month: new Date(calendar.pMonth).getMonth(),
+                        year: new Date(calendar.pMonth).getFullYear(),
+                        currentMonth: false
+                    }
+                }).reverse();
+
+
+                let daysInActiveMonth = this.range(calendar.active.days).map((day, idx) => {
+                    let dayNumber = idx + 1;
+                    let today = new Date();
+                    return {
+                        dayNumber,
+                        today: today.getDate() === dayNumber && today.getFullYear() === calendar.active.year && today.getMonth() === calendar.active.month,
+                        month: calendar.active.month,
+                        year: calendar.active.year,
+                        selected: calendar.active.day === dayNumber,
+                        currentMonth: true
+                    }
+                });
+
+
+                let countOfDays = this.options.maxDays - (latestDaysInPrevMonth.length + daysInActiveMonth.length);
+                let daysInNextMonth = this.range(countOfDays).map((day, idx) => {
+                    return {
+                        dayNumber: idx + 1,
+                        month: new Date(calendar.nMonth).getMonth(),
+                        year: new Date(calendar.nMonth).getFullYear(),
+                        currentMonth: false
+                    }
+                });
+
+                let days = [...latestDaysInPrevMonth, ...daysInActiveMonth, ...daysInNextMonth];
+
+                days = days.map(day => {
+                    let newDayParams = day;
+                    let formatted = this.getFormattedDate(new Date(`${Number(day.month) + 1}/${day.dayNumber}/${day.year}`));
+                    newDayParams.hasEvent = this.eventList[formatted];
+                    return newDayParams;
+                });
+
+                let daysTemplate = "";
+                days.forEach(day => {
+                    daysTemplate += `<li class="${day.currentMonth ? '' : 'another-month'}${day.today ? ' active-day ' : ''}${day.selected ? 'selected-day' : ''}${day.hasEvent ? ' event-day' : ''}" data-day="${day.dayNumber}" data-month="${day.month}" data-year="${day.year}"></li>`
+                });
+
+                this.elements.days.innerHTML = daysTemplate;
+            }
+
+            drawMonths() {
+                let availableMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                let monthTemplate = "";
+                let calendar = this.getCalendar();
+                availableMonths.forEach((month, idx) => {
+                    monthTemplate += `<li class="${idx === calendar.active.month ? 'active' : ''}" data-month="${idx}">${month}</li>`
+                });
+
+                this.elements.month.innerHTML = monthTemplate;
+            }
+
+            drawWeekDays() {
+                let weekTemplate = "";
+                AVAILABLE_WEEK_DAYS.forEach(week => {
+                    weekTemplate += `<li>${week.slice(0, 3)}</li>`
+                });
+
+                this.elements.week.innerHTML = weekTemplate;
+            }
+
+            // Service methods
+            eventsTrigger() {
+                this.elements.prevYear.addEventListener('click', e => {
+                    let calendar = this.getCalendar();
+                    this.updateTime(calendar.pYear);
+                    this.drawAll()
+                });
+
+                this.elements.nextYear.addEventListener('click', e => {
+                    let calendar = this.getCalendar();
+                    this.updateTime(calendar.nYear);
+                    this.drawAll()
+                });
+
+                this.elements.month.addEventListener('click', e => {
+                    let calendar = this.getCalendar();
+                    let month = e.srcElement.getAttribute('data-month');
+                    if (!month || calendar.active.month == month) return false;
+
+                    let newMonth = new Date(calendar.active.tm).setMonth(month);
+                    this.updateTime(newMonth);
+                    this.drawAll()
+                });
+
+
+                this.elements.days.addEventListener('click', e => {
+                    let element = e.srcElement;
+                    let day = element.getAttribute('data-day');
+                    let month = element.getAttribute('data-month');
+                    let year = element.getAttribute('data-year');
+                    if (!day) return false;
+                    let strDate = `${Number(month) + 1}/${day}/${year}`;
+                    this.updateTime(strDate);
+                    this.drawAll()
+                });
+
+
+                this.elements.eventAddBtn.addEventListener('click', e => {
+                    let fieldValue = this.elements.eventField.value;
+                    if (!fieldValue) return false;
+                    let dateFormatted = this.getFormattedDate(new Date(this.date));
+                    if (!this.eventList[dateFormatted]) this.eventList[dateFormatted] = [];
+                    this.eventList[dateFormatted].push(fieldValue);
+                    localStorage.setItem(localStorageName, JSON.stringify(this.eventList));
+                    this.elements.eventField.value = '';
+                    this.drawAll()
+                });
+
+
+            }
+
+
+            updateTime(time) {
+                this.date = +new Date(time);
+            }
+
+            getCalendar() {
+                let time = new Date(this.date);
+
+                return {
+                    active: {
+                        days: this.countOfDaysInMonth(time),
+                        startWeek: this.getStartedDayOfWeekByTime(time),
+                        day: time.getDate(),
+                        week: time.getDay(),
+                        month: time.getMonth(),
+                        year: time.getFullYear(),
+                        formatted: this.getFormattedDate(time),
+                        tm: +time
+                    },
+                    pMonth: new Date(time.getFullYear(), time.getMonth() - 1, 1),
+                    nMonth: new Date(time.getFullYear(), time.getMonth() + 1, 1),
+                    pYear: new Date(new Date(time).getFullYear() - 1, 0, 1),
+                    nYear: new Date(new Date(time).getFullYear() + 1, 0, 1)
+                }
+            }
+
+            countOfDaysInMonth(time) {
+                let date = this.getMonthAndYear(time);
+                return new Date(date.year, date.month + 1, 0).getDate();
+            }
+
+            getStartedDayOfWeekByTime(time) {
+                let date = this.getMonthAndYear(time);
+                return new Date(date.year, date.month, 1).getDay();
+            }
+
+            getMonthAndYear(time) {
+                let date = new Date(time);
+                return {
+                    year: date.getFullYear(),
+                    month: date.getMonth()
+                }
+            }
+
+            getFormattedDate(date) {
+                return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+            }
+
+            range(number) {
+                return new Array(number).fill().map((e, i) => i);
+            }
+
+            getFirstElementInsideIdByClassName(className) {
+                return document.getElementById(this.options.id).getElementsByClassName(className)[0];
+            }
+        }
+
+
+        (function() {
+            new CALENDAR({
+                id: "calendar"
+            })
+        })();
+    </script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+
+    <!-- DATA TABES SCRIPT -->
+    <script src="js/datatables/jquery.dataTables.js" type="text/javascript"></script>
+    <script src="js/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("#table1").dataTable({
+                "iDisplayLength": 5,
+                "aLengthMenu": [
+                    [5, 10, 15, 20, -1],
+                    [5, 10, 15, 20, "All"]
+                ]
+            });
+        });
+    </script>
+</body>
+
+</html>

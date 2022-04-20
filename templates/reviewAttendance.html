@@ -1,0 +1,292 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+
+<style>
+ a:hover {
+  background-color:  #dc3545;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #32de84;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color:#dc3545 ;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.label{
+animation:none
+}
+
+
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: #dc3545;
+}
+.a:hover {
+  background-color: #dc3545;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
+
+.checked {
+  color: red;
+}
+
+.fa{
+  font-size:30px;
+  
+  color:#dc3545;
+}
+#rating{
+  font-size:0;
+  width:140px;
+}
+
+@keyframes bounce{
+	
+	
+	
+	20%,50%,80%,to{
+	
+	transform:translateY(0);
+	}
+	
+	
+	40%{
+	
+	transform:translateY(-30px);
+	}
+	
+	70%{
+	transform:translateY(-15px);
+	}
+	90%{
+	transform:translateY(-4px);
+	}
+	
+	
+	
+}
+
+
+
+
+
+</style>
+   
+    <title>Hello, world!</title>
+  </head>
+  <body style="background-color:#000000">
+  
+   
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+    -->
+    
+    
+
+<div id="mySidebar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <a style="mask:red"href="#">Attendance</a>
+  <a href="#">Rating</a>
+  
+</div>
+
+<div style="background-color:		#000000" id="main">
+  
+  
+  
+  <nav style="background-color:#000000" class="navbar navbar-expand-lg ">
+  <button class="openbtn" onclick="openNav()">☰ </button>  
+  <img src="logo.svg" alt="img" style="max-width: 40px; max-height: 24px"></img>
+  <a style ="color:white;  "class="navbar-brand" href="#">Volentario</a>
+ 
+  
+      <a style ="color:white;  " class="nav-link " href="#">Home <span class="sr-only">(current)</span></a>
+      <a style ="color:white"class="nav-link" href="#">Events</a>
+      <a style ="color:white"class="nav-link" href="#">Map</a>
+     
+   
+</nav>
+
+
+<div  class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="color:#dc3545">Volunteer</th>
+                <th style="color:#dc3545">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="color:white">Hamed AlMulla</td>
+                <td> <p style="color:#17B169"> 
+                Present
+                </p>
+</td>
+                
+            </tr>
+            <tr>
+            <td style="color:white">Hamed AlMulla</td>
+                <td>
+                <p style="color:#FF003F"> 
+                Absent
+                </p>
+</td>
+               
+            </tr>
+        </tbody>
+    </table>
+    
+    <button style="text-align:center" type="button" class="btn btn-dark">Submit Attendance</button>
+</div>
+
+      
+    </div>
+ 
+
+
+
+
+<script>
+function openNav() {
+  document.getElementById("mySidebar").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+
+</script>
+    
+    
+    
+  </body>
+</html>

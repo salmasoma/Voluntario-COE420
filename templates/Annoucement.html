@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+     
+    <style>
+ a:hover {
+  background-color: #dc3545;
+  
+}
+
+.card:hover{
+ background-color: #dc3545;
+}
+.form-label{
+animation:none
+}
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: #dc3545;
+}
+.a:hover {
+  background-color: #dc3545;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+  
+  
+}
+
+.row-inner {
+ 
+  position:relative;
+  
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+ 
+}
+/*
+.row-parent:hover .row-inner{
+  transform: rotateY(180deg);
+  
+}*/
+
+.row-front, .row-back {
+  position:absolute;
+  
+  
+  
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.row-front {
+  
+  color: black;
+}
+
+.row-back {
+  
+  color: white;
+  transform: rotateY(180deg);
+}
+
+
+@keyframes bounce{
+	
+	
+	
+	
+	
+	0%{
+	transform:translateY(0px);
+	}
+	25%{
+	transform:translateY(-15px);
+	}
+	
+	50%{
+	
+	transform:translateY(-30px);
+	}
+	
+	75%{
+	transform:translateY(-15px);
+	}
+	100%{
+	transform:translateY(0px);
+	}
+	
+	
+	
+}
+
+
+@keyframes bounceBox{
+	
+	
+	
+	
+	
+	0%{
+	transform:translateX(0px);
+	}
+	25%{
+	transform:translateX(15px);
+	}
+	
+	50%{
+	
+	transform:translateX(30px);
+	}
+	
+	75%{
+	transform:translateX(15px);
+	}
+	100%{
+	transform:translateX(0px);
+	}
+	
+	
+	
+}
+
+.row:hover{
+animation:bounce 0.5s linear;
+transition: .5s ease-in-out;
+}
+
+.box:hover{
+animation:bounceBox 0.5s linear;
+transition: .5s ease-in-out;
+
+}
+svg {
+  width: 100px;
+  display: block;
+  margin: 40px auto 0;
+}
+
+.path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 0;
+ 
+}
+ .path:circle {
+    -webkit-animation: dash .9s ease-in-out;
+    animation: dash .9s ease-in-out;
+  }
+  .path:line {
+    stroke-dashoffset: 1000;
+    -webkit-animation: dash .9s .35s ease-in-out forwards;
+    animation: dash .9s .35s ease-in-out forwards;
+  }
+  path:check {
+    stroke-dashoffset: -100;
+    -webkit-animation: dash-check .9s .35s ease-in-out forwards;
+    animation: dash-check .9s .35s ease-in-out forwards;
+  }
+
+p {
+  text-align: center;
+  margin: 20px 0 60px;
+  font-size: 1.25em;
+  color:  #dc3545;
+}
+
+ p:success {
+    color:  #dc3545;
+  }
+  p:error {
+    color: #D06079;
+  }
+
+@-webkit-keyframes dash {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@-webkit-keyframes dash-check {
+  0% {
+    stroke-dashoffset: -100;
+  }
+  100% {
+    stroke-dashoffset: 900;
+  }
+}
+
+@keyframes dash-check {
+  0% {
+    stroke-dashoffset: -100;
+  }
+  100% {
+    stroke-dashoffset: 900;
+  }
+}
+
+
+
+
+</style>
+  </head>
+  <body style="background-color:#000000">
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+  
+
+ <!--  
+   
+<div style="z-index:3; "id="mySidebar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <a href="#">View Profile</a>
+  <a href="#">Your Hosted Events</a>
+  <a href="#">Your Booked Marked Events</a>
+  <a href="#">Your Registered Events</a>
+  <a href="#">Sent Annoucement</a>
+  
+</div>
+-->
+
+
+<div style="background-color:	#000000 " id="main">
+   <!--  
+  <nav class="navbar navbar-expand-lg ">
+  <button class="openbtn" onclick="openNav()">☰ </button>  
+  <img src="logo.svg" alt="img" style="max-width: 40px; max-height: 24px"></img>
+  <a style ="color:white" class="navbar-brand" href="#">Volentario</a>
+ 
+  
+      <a style ="color:white" class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+      <a style ="color:white"class="nav-link" href="#">Events</a>
+      <a style ="color:white"class="nav-link" href="#">Map</a>
+     
+   
+</nav>
+-->
+
+<div>
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <h1 style ="color:white">Send Annoucement</h1>
+        </div>
+    </div>
+</div>
+
+</div>
+ <div style = "background-color:#dc3545; 
+         width:800px; 
+         height:400px; 
+         position:absolute; 
+         top:270px; 
+         left:10px; 
+         z-index:1">
+      </div>
+  
+<div class="container" style="z-index:3;position:relative;  ">
+    <div class="row-parent">
+<div id="id1"class="row-inner"style="width: 900px;margin-bottom: 20px;margin-left: 20px; padding-bottom:400px;margin-right:200px">
+    <div class ="row-front">
+    <div class="row" style="width: 900px;margin-bottom: 20px;margin-left: 20px;background: black;height: 450px; box-shadow: 0px 10px 40px 20px #dc3545;">
+        
+            <form style=" height: 450px;padding: 50px;padding-right: 50px;padding-left: 50px;text-align: left;">
+            
+            <label style="color:#dc3545;" class="form-label" style="background-color:black">Sent To</label>
+            
+            
+            <select  style="background-color: #F5F5F5;" class="form-control" id="exampleFormControlSelect1">
+      <option>Select Event</option>
+      <option>Event: Clean Beach</option>
+      <option>Event: Iftar for Fasters</option>
+      <option>Event: Planting Trees</option>
+      
+    </select>
+                    
+               <label style="color:#dc3545;"class="form-label">Subject </label>
+               
+               <input style="width: 700px; background-color: #F5F5F5;" class="form-control " type="text" />
+               <label style="color:#dc3545;"for="exampleFormControlTextarea1">Example textarea</label>
+    <textarea  style="background-color: #F5F5F5;"class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+               
+               <button onclick ="flip('id1')"class="btn btn-primary" type="button" style="margin: 20px;text-align: center;background: rgb(33,150,187);border-width: 2px;width: 150px;">Send Annoucement</button></form>
+       
+    
+</div>
+
+
+       
+  
+</div>
+
+ <div class="row-back">
+    <div class="row" style="width: 900px;margin-bottom: 20px;margin-left: 20px;background: black;height: 450px; box-shadow: 0px 10px 40px 20px #dc3545">
+    
+    
+        <div class="col" >
+            <div class="card" style="padding: 0px;margin-top: 10px;background: black">
+                <div id ="back"class="card-body text-center" style="height: 400px;padding: 16px;margin: 10px;">
+                    <h1 style="color:  #dc3545">Announcement Sent</h1> 
+      <h2 style="color: #dc3545">A message has been sent to all event participents </h2> 
+     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+  <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+  <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 "/>
+</svg>
+<p class="error"></p>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+<script>
+function openNav() {
+  document.getElementById("mySidebar").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+
+function flip(n) {
+	  document.getElementById(n).style.transform= "rotateY(180deg";
+	  
+	  document.getElementById("back").style.animation= "bounce 1s linear"
+	}
+</script>
+    
+  
+  </body>
+</html>
